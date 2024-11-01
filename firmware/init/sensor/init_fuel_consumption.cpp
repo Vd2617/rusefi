@@ -11,10 +11,6 @@ void initFuelConsumption() {
 	if (Sensor::hasSensor(SensorType::FuelConsumptionLh)) {
 		return;
 	}
-
-	
-	auto test = engineConfiguration->cylindresCount;
-	auto test = engineConfiguration->lps25BaroSensorScl;
 	
 	fuelConsumptionSensor.Register();
 	
