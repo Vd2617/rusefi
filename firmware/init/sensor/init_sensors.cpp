@@ -129,6 +129,8 @@ void initNewSensors() {
 	initOldAnalogInputs();
 	initAuxDigital();
 
+	initFuelConsumption();
+
 	// Init CLI functionality for sensors (mocking)
 	initSensorCli();
 
@@ -148,9 +150,10 @@ void initNewSensors() {
 }
 
 void stopSensors() {
+
+	deInitFuelConsumption();
 	deInitAuxDigital();
 	deInitOldAnalogInputs();
-
 	deinitVbatt();
 	deinitTps();
 	deinitFluidPressure();
