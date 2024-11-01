@@ -4,13 +4,17 @@
 
 const float FUEL_INJECTION_FLOW_RATE  = 192 ; // BOSH value for test change real value
 
-static FuelConsumptionSensor fuelConsumptionSensor(SensorType::FuelConsumptionLh,FUEL_INJECTION_FLOW_RATE,engineConfiguration->cylindersCount);
+static FuelConsumptionSensor fuelConsumptionSensor(SensorType::FuelConsumptionLh,FUEL_INJECTION_FLOW_RATE,engineConfiguration->cylindresCount);
 
 void initFuelConsumption() {
 	
 	if (Sensor::hasSensor(SensorType::FuelConsumptionLh)) {
 		return;
 	}
+
+	
+	auto test = engineConfiguration->cylindresCount;
+	auto test = engineConfiguration->lps25BaroSensorScl;
 	
 	fuelConsumptionSensor.Register();
 	
