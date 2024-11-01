@@ -1139,6 +1139,22 @@ static void populateFrame(Aim5f7& msg) {
 #endif // EFI_ENGINE_CONTROL
 }
 
+struct Aim5f8 {
+	scaled_channel<uint16_t, 10> FuelConsumption;
+	scaled_channel<uint16_t, 10> Test1;
+	scaled_channel<uint16_t, 10> Test2;
+	scaled_channel<uint16_t, 10> Test3;
+};
+
+static void populateFrame(Aim5f8& msg) {
+
+	msg.FuelConsumption = Sensor::get(SensorType::FuelConsumptionLh);
+	msg.Test1 = 101;
+	msg.Test2 = 101;
+	msg.Test3 = 101;
+
+}
+
 void canDashboardAim(CanCycle cycle) {
 	if (!cycle.isInterval(CI::_10ms)) {
 		return;
@@ -1156,7 +1172,7 @@ void canDashboardAim(CanCycle cycle) {
 	transmitStruct<Aim5f7>(CanCategory::NBC, 0x5f7, false, canChannel);
 
 	// there are more, but less important for us
-	// transmitStruct<Aim5f8>(0x5f8, false);
+	transmitStruct<Aim5f8>(CanCategory::NBC, 0x5f8, false, canChannel);
 	// transmitStruct<Aim5f9>(0x5f9, false);
 	// transmitStruct<Aim5fa>(0x5fa, false);
 	// transmitStruct<Aim5fb>(0x5fb, false);
