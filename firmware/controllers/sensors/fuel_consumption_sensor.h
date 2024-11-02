@@ -20,6 +20,9 @@ public:
 	SensorResult get() const final override {
 
 		float fuelDutyCycle  = 300; //for code test replace real value
+
+		if(m_numCylindres < 0 || m_injectionFlowRate < 0 || fuelDutyCycle < 0)	
+			return 0.0f;	
 		
 		auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
 
@@ -35,6 +38,6 @@ private:
 
 	float m_injectionFlowRate; // cc/min
 
-	uint8_t m_numCylindres;
+	uint16_t m_numCylindres;
 
 };
