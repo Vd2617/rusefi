@@ -4,7 +4,9 @@
 
 const float FUEL_INJECTION_FLOW_RATE  = 192 ; // BOSH value for test change real value
 
-static FuelConsumptionSensor fuelConsumptionSensor(SensorType::FuelConsumptionLh,FUEL_INJECTION_FLOW_RATE,engineConfiguration->cylindresCount);
+static FuelConsumptionSensor fuelConsumptionSensor(SensorType::FuelConsumptionLh,FUEL_INJECTION_FLOW_RATE,4);
+
+//engineConfiguration->cylindresCount
 
 void initFuelConsumption() {
 	
