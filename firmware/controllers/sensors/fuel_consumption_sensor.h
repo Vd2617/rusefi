@@ -12,7 +12,7 @@
 class FuelConsumptionSensor final : public Sensor{
 
 public:	
-	FuelConsumptionSensor(SensorType type,float injectionFlowRate,uint8_t numCylindres)
+	FuelConsumptionSensor(SensorType type)
 	: Sensor(type) {}
 	
 	~FuelConsumptionSensor(){}
@@ -43,8 +43,8 @@ public:
 
 private:
 
-	float m_injectionFlowRate; // cc/min
+	float m_injectionFlowRate = 0.0f; // cc/min
 
-	uint16_t m_numCylindres;
+	uint16_t m_numCylindres = 0;
 
 };
