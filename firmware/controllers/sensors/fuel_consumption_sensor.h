@@ -1,11 +1,11 @@
 #pragma once
 
-/* This class for Fuel Consumption L/Hour Sensor
- * 
+/* This is a class for an instantaneous fuel consumption sensor in liters per hour
+ * Has init file in init/sensors 
  * 
  */
 
-#include "sensor.h
+#include "sensor.h"
 #include "sensor_type.h"
 #include <cstdint>
 
@@ -19,7 +19,7 @@ public:
 
 	SensorResult get() const final override {
 
-		float fuelDutyCycle  = 300; //for code test
+		float fuelDutyCycle  = 300; //for code test replace real value
 		
 		auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
 
