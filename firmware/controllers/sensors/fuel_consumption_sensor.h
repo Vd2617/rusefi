@@ -17,7 +17,7 @@ public:
 	
 	~FuelConsumptionSensor(){}
 
-	SensorResult get() const final override {
+	float get() const final override {
 
 		float fuelDutyCycle  = 300; //for code test replace real value
 
