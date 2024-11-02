@@ -13,9 +13,16 @@ class FuelConsumptionSensor final : public Sensor{
 
 public:	
 	FuelConsumptionSensor(SensorType type,float injectionFlowRate,uint8_t numCylindres)
-	: Sensor(type),m_injectionFlowRate(injectionFlowRate),m_numCylindres(numCylindres) {}
+	: Sensor(type) {}
 	
 	~FuelConsumptionSensor(){}
+
+	void initSensor(float injectionFlowRate, uint16_t numCylindres){
+		
+		m_injectionFlowRate = injectionFlowRate;
+
+		m_numCylindres = numCylindres;
+	}
 
 	SensorResult get() const final override {
 
