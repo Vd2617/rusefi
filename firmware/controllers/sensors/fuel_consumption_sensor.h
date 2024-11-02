@@ -21,7 +21,7 @@ public:
 
 		float fuelDutyCycle  = 300; //for code test replace real value
 
-		if(m_numCylindres < 0 || m_injectionFlowRate < 0 || fuelDutyCycle <  0)	
+		if(m_numCylindres < 0.0f || m_injectionFlowRate < 0.0f || fuelDutyCycle <  0.0f)	
 			return 0.0f;	
 		
 		auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
