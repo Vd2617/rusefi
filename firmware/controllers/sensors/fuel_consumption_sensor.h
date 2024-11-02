@@ -28,14 +28,16 @@ public:
 
 		float fuelDutyCycle  = 300; //for code test replace real value
 
-		if(m_numCylindres < 0.0f || m_injectionFlowRate < 0.0f || fuelDutyCycle <  0.0f)	
-			return 0.0f;	
-		
 		auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
 
 		auto rpm = Sensor::getOrZero(SensorType::Rpm);
 
-		return decimalFuelDuty * m_injectionFlowRate * m_numCylindres * rpm / 60.0;
+        float result = decimalFuelDuty * m_injectionFlowRate * m_numCylindres * rpm / 60.0;
+		
+		if(result < 0)
+			return 0;
+		
+		return result;
 	}
 
 	void showInfo(const char*) const final override {} 
