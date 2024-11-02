@@ -12,13 +12,13 @@ void initFuelConsumption() {
 		return;
 	}
 	
-	fuelConsumptionSensor.initSensor();
+	fuelConsumptionSensor.initSensor(FUEL_INJECTION_FLOW_RATE,engineConfiguration->cylindersCount);
 
 	fuelConsumptionSensor.Register();
 	
 }
 
-void deInitFuelConsumption(FUEL_INJECTION_FLOW_RATE,engineConfiguration->cylindresCount){
+void deInitFuelConsumption(){
 
 	fuelConsumptionSensor.unregister();
 
