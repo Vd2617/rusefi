@@ -1148,7 +1148,7 @@ struct Aim5f8 {
 
 static void populateFrame(Aim5f8& msg) {
 
-	msg.FuelConsumption = static_cast<uint16_t>(Sensor::get(SensorType::FuelConsumptionLh));
+	msg.FuelConsumption = static_cast<uint16_t>(Sensor::get(SensorType::FuelConsumptionLh).value());
 	msg.Test1 = 101;
 	msg.Test2 = 101;
 	msg.Test3 = 101;
