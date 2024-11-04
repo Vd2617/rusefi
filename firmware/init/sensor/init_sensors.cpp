@@ -100,7 +100,7 @@ static void sensorStartUpOrReconfiguration(bool isFirstTime) {
 	initAuxSensors();
 	initAuxSpeedSensors();
 	initInputShaftSpeedSensor();
-	initFuelConsumption();
+	initFuelConsumption(); 
 #if EFI_TCU
 	initRangeSensors();
 #endif
