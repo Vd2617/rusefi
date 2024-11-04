@@ -1087,7 +1087,7 @@ static void populateFrame(Aim5f4& msg) {
 
 	msg.Boost = boostBar;
 	msg.Vbat = Sensor::getOrZero(SensorType::BatteryVoltage);
-	msg.FuelUse = 110//Sensor::getOrZero(SensorType::FuelConsumptionLh);
+	msg.FuelUse = 110;//Sensor::getOrZero(SensorType::FuelConsumptionLh);
 	msg.Gear = Sensor::getOrZero(SensorType::DetectedGear);
 }
 
