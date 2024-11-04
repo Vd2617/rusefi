@@ -100,6 +100,7 @@ static void sensorStartUpOrReconfiguration(bool isFirstTime) {
 	initAuxSensors();
 	initAuxSpeedSensors();
 	initInputShaftSpeedSensor();
+	initFuelConsumption();
 #if EFI_TCU
 	initRangeSensors();
 #endif
@@ -129,7 +130,7 @@ void initNewSensors() {
 	initOldAnalogInputs();
 	initAuxDigital();
 
-	initFuelConsumption();
+	
 
 	// Init CLI functionality for sensors (mocking)
 	initSensorCli();
