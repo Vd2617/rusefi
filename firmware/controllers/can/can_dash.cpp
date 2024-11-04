@@ -1076,7 +1076,7 @@ static void populateFrame(Aim5f3& msg) {
 struct Aim5f4 {
 	scaled_channel<uint16_t, 10000> Boost;
 	scaled_channel<uint16_t, 3200> Vbat;
-	scaled_channel<uint16_t, 10> FuelUse;
+	scaled_channel<uint16_t, 10> FuelConsumption;
 	scaled_channel<int16_t, 1> Gear;
 };
 
@@ -1087,7 +1087,7 @@ static void populateFrame(Aim5f4& msg) {
 
 	msg.Boost = boostBar;
 	msg.Vbat = Sensor::getOrZero(SensorType::BatteryVoltage);
-	msg.FuelUse = Sensor::getOrZero(SensorType::FuelConsumptionLh);
+	msg.FuelConsumption = 110.0f ;//Sensor::getOrZero(SensorType::FuelConsumptionLh);
 	msg.Gear = Sensor::getOrZero(SensorType::DetectedGear);
 }
 
