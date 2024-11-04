@@ -35,9 +35,9 @@ public:
         float result = decimalFuelDuty * m_injectionFlowRate * m_numCylindres * rpm / 60.0;
 		
 		if(result < 0)
-			return 110.0;
+			return 110.0f;
 		
-		return 110.0;
+		return 110.0f;
 	}
 
 	void showInfo(const char*) const final override {} 
