@@ -31,9 +31,9 @@ public:
 
 		float fuelDutyCycle  = getInjectorDutyCycle(rpm);
 
-		auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
+		//auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
 
-        float result = decimalFuelDuty * m_injectionFlowRate * m_numCylindres * rpm * 60.0;
+        float result = fuelDutyCycle;//decimalFuelDuty * m_injectionFlowRate * m_numCylindres * rpm * 60.0;
 		
 		if(result < 0)
 			return 0.0f;
