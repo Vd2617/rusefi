@@ -7,6 +7,7 @@
 
 #include "sensor.h"
 #include "sensor_type.h"
+#include "fuel_math.h"
 #include <cstdint>
 
 class FuelConsumptionSensor final : public Sensor{
@@ -26,18 +27,18 @@ public:
 
 	SensorResult get() const final override {
 
-		float fuelDutyCycle  = 300; //for code test replace real value
+		auto rpm = Sensor::getOrZero(SensorType::Rpm);
+
+		float fuelDutyCycle  = getInjectorDutyCycle(rpm);
 
 		auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
 
-		auto rpm = Sensor::getOrZero(SensorType::Rpm);
-
-        float result = decimalFuelDuty * m_injectionFlowRate * m_numCylindres * rpm / 60.0;
+        float result = decimalFuelDuty * m_injectionFlowRate * m_numCylindres * rpm * 60.0;
 		
 		if(result < 0)
-			return 110.0f;
+			return 0.0f;
 		
-		return 110.0f;
+		return result;
 	}
 
 	void showInfo(const char*) const final override {} 
