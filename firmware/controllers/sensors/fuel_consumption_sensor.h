@@ -31,9 +31,11 @@ public:
 
 		float fuelDutyCycle  = getInjectorDutyCycle(rpm);
 
-		//auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
+		auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
 
-        float result = fuelDutyCycle;//decimalFuelDuty * m_injectionFlowRate * m_numCylindres * rpm * 60.0;
+		float effectiveRPM = rpm / 2.0;
+
+        float result = (decimalFuelDuty * m_injectionFlowRate * m_numCylindres * effectiveRPM * 0.001 * 60.0) * m_fuelDensity;
 		
 		if(result < 0)
 			return 0.0f;
@@ -49,5 +51,7 @@ private:
 	float m_injectionFlowRate = 0.0f; // cc/min
 
 	uint16_t m_numCylindres = 0;
+
+	float m_fuelDensity = 0.74; // kg/l
 
 };
