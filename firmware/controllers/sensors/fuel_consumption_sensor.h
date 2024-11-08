@@ -35,7 +35,7 @@ public:
 
 		float effectiveRPM = rpm / 2.0;
 
-        float result = (decimalFuelDuty * m_injectionFlowRate * m_numCylindres * effectiveRPM * 0.001 * 60.0) * m_fuelDensity;
+        float result = decimalFuelDuty * m_injectionFlowRate * m_numCylindres * effectiveRPM * 0.001 * 60.0;
 		
 		if(result < 0)
 			return 0.0f;
@@ -51,7 +51,5 @@ private:
 	float m_injectionFlowRate = 0.0f; // cc/min
 
 	uint16_t m_numCylindres = 0;
-
-	float m_fuelDensity = 0.74; // kg/l
 
 };
