@@ -2,7 +2,7 @@
 #include "fuel_consumption_sensor.h"
 #include "init.h"
 
-const float FUEL_INJECTION_FLOW_RATE  = 192 ; // BOSH value for test change real value
+const float FUEL_INJECTION_FLOW_RATE  = 254 ; // BOSH value for test change real value
 
 static FuelConsumptionSensor fuelConsumptionSensor(SensorType::FuelConsumptionLh);
 
