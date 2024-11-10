@@ -29,12 +29,12 @@ public:
 	}
 
 	// Продолжительность одного цикла в секундах (два оборота для четырехтактного двигателя)
-	float getEngineCycleDuration(float rpm) {
+	float getEngineCycleDuration(float rpm) const{
 		return 60.0f / (rpm / 2.0f); 
 	}
 	
 	// Функция для расчета общего времени впрыска за минуту для всех 6 цилиндров
-	float getTotalInjectionTimePerMinute(float dutyCycle, float rpm) {
+	float getTotalInjectionTimePerMinute(float dutyCycle, float rpm)const {
 		float cycleDuration = getEngineCycleDuration(rpm);
 		float cyclesPerMinute = rpm / 2.0f;
 		auto result = (dutyCycle / 100.0f) * cycleDuration * cyclesPerMinute * m_numCylindres ;
