@@ -31,7 +31,9 @@ public:
 
 		float fuelDutyCycle  = getInjectorDutyCycle(Sensor::getOrZero(SensorType::Rpm));
 
-		auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
+		return fuelDutyCycle;
+
+		/*auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
 
 		float realInjectionFlowRate = m_injectionFlowRate * decimalFuelDuty;
 
@@ -39,7 +41,7 @@ public:
 
 		float fuelLitresHour = injectionLitresPerHour * m_numCylindres ; 
 		
-		return (fuelLitresHour < 0.0f) ? 0.0f : fuelLitresHour;
+		return (fuelLitresHour < 0.0f) ? 0.0f : fuelLitresHour;*/
 	}
 
 	void showInfo(const char*) const final override {} 
