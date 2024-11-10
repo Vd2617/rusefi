@@ -10,6 +10,7 @@
 #include "fuel_math.h"
 #include "injector_model.h"
 #include "fuel_computer.h"
+#include "rusefi_types.h"
 #include <cstdint>
 
 class FuelConsumptionSensor final : public Sensor{
@@ -27,21 +28,35 @@ public:
 		m_numCylindres = numCylindres;
 	}
 
+	// Продолжительность одного цикла в секундах (два оборота для четырехтактного двигателя)
+	float getEngineCycleDuration(float rpm) {
+		return 60.0f / (rpm / 2.0f); 
+	}
+	
+	// Функция для расчета общего времени впрыска за минуту для всех 6 цилиндров
+	float getTotalInjectionTimePerMinute(float dutyCycle, float rpm) {
+		float cycleDuration = getEngineCycleDuration(rpm);
+		float cyclesPerMinute = rpm / 2.0f;
+		auto result = (dutyCycle / 100.0f) * cycleDuration * cyclesPerMinute * m_numCylindres ;
+		return result;
+	}
+	
+	// Функция для расчета общего расхода топлива в литрах за час
+	float getFuelConsumptionPerHour(float dutyCycle, float rpm, float flowRate) {
+		float totalInjectionTimePerMinute = getTotalInjectionTimePerMinute(dutyCycle, rpm); // seconds
+		float totalFlowPerMinute = totalInjectionTimePerMinute / 60.0f * flowRate; 
+		return (totalFlowPerMinute / 1000.0f) * 60.0f / m_fuelDensity; // Переводим в литры в час
+	}
+
 	SensorResult get() const final override {
 
-		float fuelDutyCycle  = getInjectorDutyCycle(Sensor::getOrZero(SensorType::Rpm));
+		float rpm = Sensor::getOrZero(SensorType::Rpm);
 
-		return fuelDutyCycle;
+		float dutyCycle = getInjectorDutyCycle(rpm);
 
-		/*auto  decimalFuelDuty = fuelDutyCycle / 100.0 ;
+		float fuelConsumption = getFuelConsumptionPerHour(dutyCycle, rpm, m_injectionFlowRate);
 
-		float realInjectionFlowRate = m_injectionFlowRate * decimalFuelDuty;
-
-		float injectionLitresPerHour = (realInjectionFlowRate * fuelDensity * 60.0f) / (fuelDensity * 1000.0f);
-
-		float fuelLitresHour = injectionLitresPerHour * m_numCylindres ; 
-		
-		return (fuelLitresHour < 0.0f) ? 0.0f : fuelLitresHour;*/
+		return fuelConsumption;
 	}
 
 	void showInfo(const char*) const final override {} 
@@ -52,5 +67,7 @@ private:
 	float m_injectionFlowRate = 0.0f; // cc/min
 
 	uint16_t m_numCylindres = 0;
+
+	constexpr float m_fuelDensity = 0.72;
 
 };
