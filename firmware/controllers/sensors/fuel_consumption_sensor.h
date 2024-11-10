@@ -42,10 +42,10 @@ public:
 	}
 	
 	// Функция для расчета общего расхода топлива в литрах за час
-	float getFuelConsumptionPerHour(float dutyCycle, float rpm, float flowRate) {
+	float getFuelConsumptionPerHour(float dutyCycle, float rpm, float flowRate) const {
 		float totalInjectionTimePerMinute = getTotalInjectionTimePerMinute(dutyCycle, rpm); // seconds
 		float totalFlowPerMinute = totalInjectionTimePerMinute / 60.0f * flowRate; 
-		return (totalFlowPerMinute / 1000.0f) * 60.0f / m_fuelDensity; // Переводим в литры в час
+		return (totalFlowPerMinute / 1000.0f) * 60.0f / m_fuelDensity ; // Переводим в литры в час
 	}
 
 	SensorResult get() const final override {
@@ -68,6 +68,5 @@ private:
 
 	uint16_t m_numCylindres = 0;
 
-	constexpr float m_fuelDensity = 0.72;
-
+	static constexpr float m_fuelDensity = 0.75;
 };
