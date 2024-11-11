@@ -36,4 +36,5 @@
 	"files.associations": {
 		"*.input": "ini"
 	},
+	"C_Cpp.dimInactiveRegions": false,
 }
