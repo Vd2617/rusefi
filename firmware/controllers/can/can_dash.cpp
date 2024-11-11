@@ -1086,7 +1086,7 @@ static void populateFrame(Aim5f4& msg) {
 	float boostBar = deltaKpa / 100;
 
 	float gPerSecond = engine->module<TripOdometer>()->getConsumptionGramPerSecond();
-	float gPerHour = gPerSecond * 3600;
+	float gPerHour = gPerSecond * 3600.0f;
 	float literPerHour = gPerHour * 0.00139f;
 
 	msg.Boost = boostBar;
