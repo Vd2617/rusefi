@@ -1085,9 +1085,13 @@ static void populateFrame(Aim5f4& msg) {
 		- Sensor::get(SensorType::BarometricPressure).value_or(101.325);
 	float boostBar = deltaKpa / 100;
 
+	float gPerSecond = engine->module<TripOdometer>()->getConsumptionGramPerSecond();
+	float gPerHour = gPerSecond * 3600;
+	float literPerHour = gPerHour * 0.00139f;
+
 	msg.Boost = boostBar;
 	msg.Vbat = Sensor::getOrZero(SensorType::BatteryVoltage);
-	msg.FuelConsumption = 10 * Sensor::getOrZero(SensorType::FuelConsumptionLh);
+	msg.FuelConsumption = 10 * literPerHour;
 	msg.Gear = Sensor::getOrZero(SensorType::DetectedGear);
 }
 
