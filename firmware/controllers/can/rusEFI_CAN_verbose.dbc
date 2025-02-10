@@ -50,7 +50,19 @@ BO_ 512 BASE0: 8 Vector__XXX
  SG_ WarningCounter : 0|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ LastError : 16|16@1+ (1,0) [0|0] "" Vector__XXX
  SG_ RevLimAct : 32|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MainRelayAct : 33|1@1+ BO_ 512 BASE0: 8 Vector__XXX
+ SG_ WarningCounter : 0|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ LastError : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RevLimAct : 32|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ MainRelayAct : 33|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ FuelPumpAct : 34|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CELAct : 35|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ EGOHeatAct : 36|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ LambdaProtectAct : 37|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CurrentGear : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DistanceTraveled : 48|16@1+ (0.1,0) [0|6553.5] "km" Vector__XXX
+ SG_ Fan : 38|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Fan2 : 39|1@1+ (1,0) [0|0] "" Vector__XXX(1,0) [0|0] "" Vector__XXX
  SG_ FuelPumpAct : 34|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ CELAct : 35|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ EGOHeatAct : 36|1@1+ (1,0) [0|0] "" Vector__XXX
@@ -118,15 +130,13 @@ BO_ 520 BASE8: 8 Vector__XXX
  SG_ Cam2Etar : 56|8@1- (1,0) [-100|100] "deg" Vector__XXX
 
 BO_ 521 BASE9: 8 Vector__XXX
- SG_ warningCounter : 0|16@1+ (1,0) [0|0] "" Vector__XXX
- SG_ lastErrorCode : 16|16@1+ (1,0) [0|0] "" Vector__XXX
- SG_ nextOBD2ErrorCode : 32|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ WarningCounter : 0|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ LastErrorCode : 16|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ NextOBD2ErrorCode : 32|16@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ SG_ 3221225472 AFR "Current AFR Reading
 ";
 CM_ SG_ 3221225472 VVTPos "Current VVT Position Reading";
-CM_ SG_ 512 WarningCounter "Total warnings since ECU start time";
-CM_ SG_ 512 LastError "Last error code";
 CM_ SG_ 512 RevLimAct "RPM Limiter Active";
 CM_ SG_ 512 MainRelayAct "Main Relay Active";
 CM_ SG_ 512 FuelPumpAct "Fuel Pump Output Active";
@@ -180,4 +190,6 @@ CM_ SG_ 520 Cam2I "Cam bank 2 intake actual";
 CM_ SG_ 520 Cam2Itar "Cam bank 2 intake target";
 CM_ SG_ 520 Cam2E "Cam bank 2 exhaust actual";
 CM_ SG_ 520 Cam2Etar "Cam bank 2 exhaust target";
-
+CM_ SG_ 521 WarningCounter "Total warnings since ECU start time";
+CM_ SG_ 521 LastError "Last error code";
+CM_ SG_ 521 NextOBD2Error "Next active error code, sending in cycle";
