@@ -17,9 +17,38 @@
 #include "can.h"
 #include "fuel_math.h"
 #include "spark_logic.h"
+#include "engine_parts.h"
 
 #define CAN_PEDAL_TPS_OFFSET 2
 #define CAN_SENSOR_1_OFFSET 3
+
+static uint16_t errorCodes[24];  
+static size_t lastErrorCodeIndex; 
+
+void reloadErrors(){
+  size_t i = 0;
+  for (size_t j = 0; j < engine->engineState.warnings.recentWarnings.getCount(); j++) {
+  	warning_t& warn = engine->engineState.warnings.recentWarnings.get(j);
+  	if ((warn.Code != ObdCode::None) &&
+  		(!warn.LastTriggered.hasElapsedSec(maxI(3, engineConfiguration->warningPeriod)))) {
+  		errorCodes[i] = static_cast<uint16_t>(warn.Code);
+  		i++;
+  		if (i >= efi::size(errorCodes))
+  			break;
+  	}
+  }
+  lastErrorCodeIndex = i;
+  for ( ; i < efi::size(errorCodes); i++) {
+  	errorCodes[i] = static_cast<uint16_t>(ObdCode::None);
+  }
+}
+
+uint16_t getNextErrorCode() {
+  if (lastErrorCodeIndex < 0) {
+      reloadErrors();
+  }
+  return errorCodes[lastErrorCodeIndex--];
+}
 
 struct Status{
 	uint8_t revLimit : 1;
@@ -224,7 +253,7 @@ struct Errors{
 static void populateFrame(Errors& msg) {
 	msg.warningCounter = engine->engineState.warnings.warningCounter;
 	msg.lastErrorCode = static_cast<uint16_t>(engine->engineState.warnings.lastErrorCode);
-  msg.nextOBD2ErrorCode = 0;
+  msg.nextOBD2ErrorCode = getNextErrorCode() ;
 }
 
 void sendCanVerbose() {
