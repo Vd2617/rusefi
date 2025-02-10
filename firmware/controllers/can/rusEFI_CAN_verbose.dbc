@@ -47,30 +47,16 @@ BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
  SG_ NewSignal_0024 : 0|8@1+ (1,0) [0|0] "" Vector__XXX
 
 BO_ 512 BASE0: 8 Vector__XXX
- SG_ WarningCounter : 0|16@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LastError : 16|16@1+ (1,0) [0|0] "" Vector__XXX
- SG_ RevLimAct : 32|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ MainRelayAct : 33|1@1+ BO_ 512 BASE0: 8 Vector__XXX
- SG_ WarningCounter : 0|16@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LastError : 16|16@1+ (1,0) [0|0] "" Vector__XXX
- SG_ RevLimAct : 32|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ MainRelayAct : 33|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ FuelPumpAct : 34|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CELAct : 35|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ EGOHeatAct : 36|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LambdaProtectAct : 37|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CurrentGear : 40|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ DistanceTraveled : 48|16@1+ (0.1,0) [0|6553.5] "km" Vector__XXX
- SG_ Fan : 38|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ Fan2 : 39|1@1+ (1,0) [0|0] "" Vector__XXX(1,0) [0|0] "" Vector__XXX
- SG_ FuelPumpAct : 34|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CELAct : 35|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ EGOHeatAct : 36|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ LambdaProtectAct : 37|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ CurrentGear : 40|8@1+ (1,0) [0|0] "" Vector__XXX
- SG_ DistanceTraveled : 48|16@1+ (0.1,0) [0|6553.5] "km" Vector__XXX
- SG_ Fan : 38|1@1+ (1,0) [0|0] "" Vector__XXX
- SG_ Fan2 : 39|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ RevLimAct : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MainRelayAct : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ FuelPumpAct : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CELAct : 3|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ EGOHeatAct : 4|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ LambdaProtectAct : 5|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Fan : 6|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Fan2 : 7|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ CurrentGear : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DistanceTraveled : 16|16@1+ (0.1,0) [0|6553.5] "km" Vector__XXX
 
 BO_ 513 BASE1: 8 Vector__XXX
  SG_ RPM : 0|16@1+ (1,0) [0|0] "RPM" Vector__XXX
