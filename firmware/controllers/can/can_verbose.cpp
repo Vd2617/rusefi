@@ -24,7 +24,7 @@
 struct Status {
 	uint16_t warningCounter;
 	uint16_t lastErrorCode;
-
+  uint16_t nextOBD2ErrorCode;
 	uint8_t revLimit : 1;
 	uint8_t mainRelay : 1;
 	uint8_t fuelPump : 1;
