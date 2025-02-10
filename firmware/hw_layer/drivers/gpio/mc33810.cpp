@@ -670,8 +670,7 @@ static THD_FUNCTION(mc33810_driver_thread, p) {
 /* Driver exported functions.												*/
 /*==========================================================================*/
 
-int Mc33810::writePad(size_t pin, int value)
-{
+int Mc33810::writePad(size_t pin, int value) {
 	if (pin >= MC33810_OUTPUTS) {
 		return -12;
 	}
@@ -844,6 +843,25 @@ void mc33810_req_init() {
 		chip.need_init = true;
 	}
 }
+
+int getMc33810maxDwellTimer(mc33810maxDwellTimer_e value) {
+switch(value) {
+case DWELL_16MS:
+  return 16;
+case DWELL_2MS:
+  return 2;
+case DWELL_32MS:
+  return 32;
+case DWELL_4MS:
+  return 4;
+case DWELL_64MS:
+  return 64;
+case DWELL_8MS:
+  return 8;
+  }
+ return 0;
+}
+
 
 #else /* BOARD_MC33810_COUNT > 0 */
 

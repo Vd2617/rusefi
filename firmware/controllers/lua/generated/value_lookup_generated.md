@@ -241,7 +241,7 @@ Pull-up resistor value on your board
 ### launchTimingRetard
 
 
-### hip9011PrescalerAndSDO
+### hip9011Prescaler
 value '6' for 8MHz hw osc\nread hip9011 datasheet for details\ntodo split into two bit fields
 
 ### alternator_iTermMin
@@ -327,9 +327,6 @@ CANbus thread period in ms
 
 ### idle_derivativeFilterLoss
 0.1 is a good default value
-
-### trailingSparkAngle
-just a temporary solution
 
 ### trigger.customTotalToothCount
 
@@ -526,9 +523,6 @@ Minimum MAP before closed loop boost is enabled. Use to prevent misbehavior upon
 ### finalIgnitionCutPercentBeforeLaunch
 
 
-### vehicleWeight
-
-
 ### idlePidRpmUpperLimit
 How far above idle speed do we consider idling, i.e. coasting detection threshold.\nFor example, if target = 800, this param = 200, then anything below 1000 RPM is considered idle.
 
@@ -605,9 +599,6 @@ This property is useful if using rusEFI as TCM or BCM only
 Read VSS from OEM CAN bus according to selected CAN vehicle configuration.
 
 ### suppressWboWorkaround7048
-
-
-### showHumanReadableWarning
 
 
 ### stftIgnoreErrorMagnitude
@@ -765,9 +756,6 @@ Select which bus the wideband controller is attached to.
 
 ### fuelClosedLoopCorrectionEnabled
 Enables lambda sensor closed loop feedback for fuelling.
-
-### oddFireEngine
-On even fire engines with even number of cylinders we go wasted spark during cranking. Use this setting to disable wasted spark cranking on odd fire engines.
 
 ### alwaysWriteSdCard
 Write SD card log even when powered by USB
@@ -953,9 +941,6 @@ Idle target speed when A/C is enabled. Some cars need the extra speed to keep th
 set warningPeriod X
 
 ### knockDetectionWindowStart
-
-
-### knockDetectionWindowEnd
 
 
 ### idleStepperReactionTime
@@ -1157,7 +1142,7 @@ AEM X-Series EGT gauge kit or rusEFI EGT sensor from Wideband controller
 
 
 ### enableKnockSpectrogram
-
+"Available via TS Plugin see https://rusefi.com/s/knock"
 
 ### enableKnockSpectrogramFilter
 
@@ -1894,6 +1879,108 @@ Fuel trim when knock, max 30%
 ### knockFrequency
 "Estimated knock frequency, ignore cylinderBore if this one > 0"
 
+### secondaryInjectorFuelReferencePressure
+This is the pressure at which your injector flow is known.\nFor example if your injectors flow 400cc/min at 3.5 bar, enter 350kpa here.
+
+### nitrousControlEnabled
+
+
+### nitrousControlTriggerPinInverted
+
+
+### nitrousLuaGaugeArmingValue
+
+
+### nitrousMinimumTps
+
+
+### nitrousMinimumClt
+
+
+### nitrousMaximumMap
+
+
+### nitrousMaximumAfr
+
+
+### nitrousActivationRpm
+
+
+### nitrousDeactivationRpm
+
+
+### nitrousDeactivationRpmWindow
+
+
+### dfcoRetardDeg
+Retard timing by this amount during DFCO. Smooths the transition back from fuel cut. After fuel is restored, ramp timing back in over the period specified.
+
+### dfcoRetardRampInTime
+Smooths the transition back from fuel cut. After fuel is restored, ramp timing back in over the period specified.
+
+### nitrousFuelAdderPercent
+
+
+### nitrousIgnitionRetard
+Retard timing to remove from actual final timing (after all corrections) due to additional air.
+
+### nitrousMinimumVehicleSpeed
+
+
+### fuelLevelAveragingAlpha
+Exponential Average Alpha filtering parameter
+
+### fuelLevelUpdatePeriodSec
+How often do we update fuel level gauge
+
+### fuelLevelLowThresholdVoltage
+Error below specified value
+
+### fuelLevelHighThresholdVoltage
+Error above specified value
+
 ### tcu_shiftTime
 
+
+### dynoRpmStep
+@@DYNO_RPM_STEP_TOOLTIP@@
+
+### dynoSaeTemperatureC
+@@DYNO_SAE_TEMPERATURE_C_TOOLTIP@@
+
+### dynoSaeRelativeHumidity
+@@DYNO_SAE_RELATIVE_HUMIDITY_TOOLTIP@@
+
+### dynoSaeBaro
+@@DYNO_SAE_BARO_TOOLTIP@@
+
+### dynoCarWheelDiaInch
+@@DYNO_CAR_WHEEL_DIA_INCH_TOOLTIP@@
+
+### dynoCarWheelAspectRatio
+@@DYNO_CAR_WHEEL_ASPECT_RATIO_TOOLTIP@@
+
+### dynoCarWheelTireWidthMm
+@@DYNO_CAR_WHEEL_TIRE_WIDTH_TOOLTIP@@
+
+### dynoCarGearPrimaryReduction
+@@DYNO_CAR_GEAR_PRIMARY_REDUCTION_TOOLTIP@@
+
+### dynoCarGearRatio
+@@DYNO_CAR_GEAR_RATIO_TOOLTIP@@
+
+### dynoCarGearFinalDrive
+@@DYNO_CAR_GEAR_FINAL_DRIVE_TOOLTIP@@
+
+### dynoCarCarMassKg
+@@DYNO_CAR_CAR_MASS_TOOLTIP@@
+
+### dynoCarCargoMassKg
+@@DYNO_CAR_CARGO_MASS_TOOLTIP@@
+
+### dynoCarCoeffOfDrag
+@@DYNO_CAR_COEFF_OF_DRAG_TOOLTIP@@
+
+### dynoCarFrontalAreaM2
+@@DYNO_CAR_FRONTAL_AREA_TOOLTIP@@
 

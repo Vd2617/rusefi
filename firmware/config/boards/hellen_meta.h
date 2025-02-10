@@ -20,6 +20,7 @@ bool isBoardWithPowerManagement();
 bool getHellenBoardEnabled();
 void hellenEnableEn(const char *msg = "");
 void hellenDisableEn(const char *msg = "");
+void hellenDisableEnSilently(); // this version is called by fatal error handler meaning no OS access
 
 void hellenBoardStandBy();
 void hellenMegaSdWithAccelerometer();
@@ -29,10 +30,13 @@ void configureHellenCanTerminator();
 void setHellenCan();
 void setHellen64Can();
 
+void setHellenAnalogDividers();
 void setHellenVbatt();
 
 int detectHellenBoardId();
 void detectHellenBoardType();
+
+int boardGetAnalogDiagnostic();
 
 // stm32 UART8
 #define H144_UART8_RX Gpio::E0
@@ -100,6 +104,7 @@ void detectHellenBoardType();
 #define H144_GP9 Gpio::F2
 
 #define H144_OUT_IO1 D3
+// TIM1_CH2
 #define H144_OUT_IO2 A9
 #define H144_OUT_IO3 G14
 #define H144_OUT_IO4 G5
@@ -110,6 +115,7 @@ void detectHellenBoardType();
 #define H144_OUT_IO9 G13
 #define H144_OUT_IO10 G12
 #define H144_OUT_IO11 G2
+// TIM1_CH1
 #define H144_OUT_IO12 A8
 #define H144_OUT_IO13 G6
 
@@ -166,9 +172,11 @@ void detectHellenBoardType();
 
 
 #define H144_IN_AUX1 EFI_ADC_8
+#define H144_IN_AUX1_DIGITAL B0
 #define H144_IN_AUX2 EFI_ADC_14
 // fun fact: same input goes to TWO stm32 pins so that we can use it both as analog and ICU capture
 //#define H144_IN_AUX2_DIGITAL C4
+// TIM1_CH1
 #define H144_IN_AUX2_DIGITAL E9
 
 // AIN20 PA7
@@ -176,7 +184,7 @@ void detectHellenBoardType();
 #define H144_IN_AUX3_DIGITAL A7
 // AIN22 PC5
 #define H144_IN_AUX4 EFI_ADC_15
-#define H144_IN_AUX4_DIGITAL С5
+#define H144_IN_AUX4_DIGITAL C5
 
 // A1 AIN1 no code to use ADC3 as analog, ADC3_IN9 for knock
 #define H144_IN_SENS1 F3

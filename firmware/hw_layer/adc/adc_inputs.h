@@ -38,6 +38,7 @@ inline bool isAdcChannelOffChip(adc_channel_e hwChannel) {
 	return (isAdcChannelValid(hwChannel) && (hwChannel > EFI_ADC_ONCHIP_LAST));
 }
 
+int analogGetDiagnostic();
 
 #if !defined(GPT_FREQ_FAST) || !defined(GPT_PERIOD_FAST)
 
@@ -89,9 +90,9 @@ float getMCUInternalTemperature(void);
 void addFastAdcChannel(const char *name, adc_channel_e hwChannel);
 void removeChannel(const char *name, adc_channel_e hwChannel);
 
-#define getAdcValue(msg, hwChannel) getInternalAdcValue(msg, hwChannel)
+#define adcGetRawValue(msg, hwChannel) getInternalAdcValue(msg, hwChannel)
 
-#define adcToVoltsDivided(adc, hwChannel) (adcToVolts(adc) * getAnalogInputDividerCoefficient(hwChannel))
+#define adcRawValueToScaledVoltage(adc, hwChannel) (adcRawValueToRawVoltage(adc) * getAnalogInputDividerCoefficient(hwChannel))
 
 // This callback is called by the ADC driver when a new fast ADC sample is ready
 void onFastAdcComplete(adcsample_t* samples);
@@ -112,6 +113,8 @@ static constexpr AdcToken invalidAdcToken = (AdcToken)(-1);
 
 AdcToken enableFastAdcChannel(const char* msg, adc_channel_e channel);
 adcsample_t getFastAdc(AdcToken token);
+const ADCConversionGroup* getKnockConversionGroup(uint8_t channelIdx);
+void onKnockSamplingComplete();
 #endif // HAL_USE_ADC
 
 void printFullAdcReport(void);

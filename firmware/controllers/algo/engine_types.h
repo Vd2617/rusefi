@@ -1,6 +1,8 @@
 /*
  * @file engine_types.h
  *
+ * this header alone few similar ones is consumed by code generation layer for values to be available in .ini template etc
+ *
  * See 'integration API' note in rusefi_enums.h
  * TODO: spell out which enums belong here and which enums belong in rusefi_enums.h for what reasons
  *
@@ -54,7 +56,7 @@ typedef enum __attribute__ ((__packed__)) {
 	DBG_ION = 30,
 	DBG_TLE8888 = 31,
 	DBG_32 = 32,
-	DBG_DWELL_METRIC = 33,
+	DBG_33 = 33,
 	DBG_34 = 34,
 	DBG_35 = 35,
 	DBG_36 = 36,
@@ -222,13 +224,15 @@ enum class trigger_type_e : uint32_t {
 
 	TT_NISSAN_HR_CAM_IN = 86,
 
+  TT_HONDA_J30A2_24_1_1 = 87,
+
 	// do not forget to edit "#define trigger_type_e_enum" line in integration/rusefi_config.txt file to propogate new value to rusefi.ini TS project
 	// do not forget to invoke "gen_config.bat" once you make changes to integration/rusefi_config.txt
 	// todo: one day a hero would integrate some of these things into Makefile in order to reduce manual magic
 	//
 	// Another point: once you add a new trigger, run get_trigger_images.bat which would run rusefi_test.exe from unit_tests
 	//
-	TT_UNUSED = 87, // this is used if we want to iterate over all trigger types
+	TT_UNUSED = 88, // this is used if we want to iterate over all trigger types
 };
 
 typedef enum {
@@ -255,6 +259,11 @@ typedef enum {
 	TS_ETB_DISABLE_JAM_DETECT = 0x14,
 	TS_BURN_WITHOUT_FLASH = 0x15,
 	TS_RESET_MC33810 = 0x16,
+	TS_SD_MOUNT_PC = 0x17,
+	TS_SD_MOUNT_ECU = 0x18,
+	TS_SD_UNMOUNT = 0x19,
+	TS_SD_FORMAT = 0x1A,
+	TS_SD_DELETE_REPORTS = 0x1B,
 } ts_14_command;
 
 typedef enum {
@@ -325,4 +334,8 @@ typedef enum {
 	BENCH_AUXOUT7,
 	HD_ACR,
 	HD_ACR2,
+	LUA_COMMAND_1,
+	LUA_COMMAND_2,
+	LUA_COMMAND_3,
+	LUA_COMMAND_4,
 } bench_mode_e;

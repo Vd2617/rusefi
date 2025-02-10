@@ -121,8 +121,22 @@ const engine_state_s* getLiveData(size_t) {
 }
 
 template<>
+const prime_injection_s* getLiveData(size_t) {
+	return &engine->module<PrimeController>().unmock();
+}
+
+template<>
 const tps_accel_state_s* getLiveData(size_t) {
 	return &engine->module<TpsAccelEnrichment>().unmock();
+}
+
+template<>
+const nitrous_control_state_s* getLiveData(size_t) {
+#if EFI_LAUNCH_CONTROL
+    return &engine->module<NitrousController>().unmock();
+#else
+    return nullptr;
+#endif // EFI_LAUNCH_CONTROL
 }
 
 template<>
@@ -204,7 +218,11 @@ const ignition_state_s* getLiveData(size_t) {
 
 template<>
 const sent_state_s* getLiveData(size_t) {
+#if EFI_SENT_SUPPORT
 	return &engine->sent_state;
+#else
+	return nullptr;
+#endif
 }
 
 template<>

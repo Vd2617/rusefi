@@ -3,6 +3,11 @@ DOCS_ENUMS_INPUTS = \
   $(PROJECT_DIR)/integration/rusefi_config.txt \
   $(PROJECT_DIR)/console/binary/output_channels.txt \
   $(PROJECT_DIR)/controllers/engine_cycle/knock_controller.txt \
+  $(PROJECT_DIR)/controllers/engine_cycle/prime_injection.txt \
+  $(PROJECT_DIR)/controllers/trigger/trigger_central.txt \
+  $(PROJECT_DIR)/controllers/trigger/trigger_state.txt \
+  $(PROJECT_DIR)/controllers/algo/ignition/ignition_state.txt \
+  $(PROJECT_DIR)/controllers/actuators/idle_state.txt \
   $(PROJECT_DIR)/controllers/actuators/electronic_throttle.txt \
   $(PROJECT_DIR)/integration/LiveData.yaml \
   $(PROJECT_DIR)/console/binary/generated/live_data_ids.h \
@@ -25,7 +30,7 @@ ifneq ("$(wildcard $(BOARD_DIR)/board_config.txt)","")
   DOCS_ENUMS_INPUTS += $(BOARD_DIR)/board_config.txt
 endif
 
-.docsenums-sentinel: $(DOCS_ENUMS_INPUTS) $(CONFIG_DEFINITION_BASE) $(ENUM_TO_STRING)
+.docsenums-sentinel: $(DOCS_ENUMS_INPUTS) $(CONFIG_DEFINITION_BASE_JAR) $(ENUM_TO_STRING_JAR)
 	bash $(PROJECT_DIR)/gen_live_documentation.sh
 	@touch $@
 

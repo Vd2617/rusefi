@@ -44,17 +44,7 @@ void grabPedalIsWideOpen() {
 	onGrabPedal();
 }
 
-bool isTps1Error() {
-	return !Sensor::get(SensorType::Tps1).Valid;
-}
-
-bool isTps2Error() {
-    return !Sensor::get(SensorType::Tps2).Valid && Sensor::hasSensor(SensorType::Tps2Primary);
-}
-
-bool isPedalError() {
-    return !Sensor::get(SensorType::AcceleratorPedal).Valid && Sensor::hasSensor(SensorType::AcceleratorPedalPrimary);
-}
+#if EFI_SENT_SUPPORT
 
 extern SentTps sentTps;
 
@@ -69,15 +59,21 @@ float decodeTpsSentValue(float sentValue) {
     }
 }
 
-void sentTpsDecode() {
-#if EFI_SENT_SUPPORT
-    if (!isDigitalTps1()) {
+#if EFI_PROD_CODE
+void sentTpsDecode(SentInput sentCh) {
+    if ((!isDigitalTps1()) || (engineConfiguration->EtbSentInput != sentCh)) {
         return;
     }
     // todo: move away from weird float API
-    float sentValue = getSentValue(0);
+    float sentValue = getSentValue(sentCh);
     float tpsValue = decodeTpsSentValue(sentValue);
 
     sentTps.setValidValue(tpsValue, getTimeNowNt());
-#endif // EFI_SENT_SUPPORT
 }
+#endif // EFI_PROD_CODE
+
+bool isDigitalTps1() {
+    return (engineConfiguration->sentEtbType != SentEtbType::NONE);
+}
+
+#endif /* EFI_SENT_SUPPORT */

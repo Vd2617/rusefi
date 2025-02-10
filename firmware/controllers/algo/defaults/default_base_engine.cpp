@@ -3,6 +3,7 @@
 #include "defaults.h"
 #include "vr_pwm.h"
 #include "kline.h"
+#include "engine_configuration_defaults.h"
 #include <rusefi/manifest.h>
 #if HW_PROTEUS
 #include "proteus_meta.h"
@@ -19,6 +20,14 @@ static void setDefaultAlternatorParameters() {
 #endif // EFI_ALTERNATOR_CONTROL
 
 void setGDIFueling() {
+#ifdef HW_HELLEN_8CHAN
+  engineConfiguration->externalRusEfiGdiModule = true;
+#endif
+
+	engineConfiguration->injectionMode = IM_SEQUENTIAL;
+	engineConfiguration->crankingInjectionMode = IM_SEQUENTIAL;
+	engineConfiguration->ignitionMode = IM_INDIVIDUAL_COILS;
+
   setGdiWallWetting();
 	// Use high pressure sensor
 	engineConfiguration->injectorPressureType = IPT_High;
@@ -62,14 +71,40 @@ static void setDefaultHPFP() {
 
 static void mc33810defaults() {
   engineConfiguration->mc33810Nomi = 5.5;
+  engineConfiguration->mc33810maxDwellTimer = mc33810maxDwellTimer_e::DWELL_8MS;
   engineConfiguration->mc33810Maxi = 14;
 }
+
+void setDynoDefaults() {
+    config->dynoRpmStep = 100;
+
+    config->dynoSaeTemperatureC = 20;
+    config->dynoSaeBaro = 101.33;
+    config->dynoSaeRelativeHumidity = 80;
+
+    config->dynoCarWheelDiaInch = 18;
+    config->dynoCarWheelTireWidthMm = 235;
+    config->dynoCarWheelAspectRatio = 40;
+
+    config->dynoCarGearPrimaryReduction = 1;
+    config->dynoCarGearRatio = 1.0;
+    config->dynoCarGearFinalDrive = 4.2;
+
+    config->dynoCarCarMassKg = 1000;
+    config->dynoCarCargoMassKg = 95;
+    config->dynoCarCoeffOfDrag = 0.29;
+    config->dynoCarFrontalAreaM2 = 1.85;
+ }
 
 void setDefaultBaseEngine() {
 	// Base Engine Settings
 	engineConfiguration->displacement = 2;
 	engineConfiguration->knockDetectionUseDoubleFrequency = true;
 	setInline4();
+
+  setDynoDefaults();
+
+
 
   for (size_t i = 0; i < engineConfiguration->cylindersCount; i++) {
     // one knock sensor by default. See also 'setLeftRightBanksNeedBetterName()'
@@ -101,8 +136,18 @@ void setDefaultBaseEngine() {
   engineConfiguration->magicNumberAvailableForDevTricks = 1;
 
   engineConfiguration->acrRevolutions = 5;
+	engineConfiguration->acPressure.v2 = 5;
+	engineConfiguration->acPressure.value2 = 100;
 
-    engineConfiguration->watchOutForLinearTime = true;
+	engineConfiguration->lowPressureFuel.v2 = 5;
+	engineConfiguration->lowPressureFuel.value2 = 100;
+
+  engineConfiguration->fuelLevelAveragingAlpha = engine_configuration_defaults::FUEL_LEVEL_AVERAGING_ALPHA;
+  engineConfiguration->fuelLevelUpdatePeriodSec = engine_configuration_defaults::FUEL_LEVEL_UPDATE_PERIOD_SEC;
+  engineConfiguration->fuelLevelLowThresholdVoltage = engine_configuration_defaults::FUEL_LEVEL_LOW_THRESHOLD_VOLTAGE;
+  engineConfiguration->fuelLevelHighThresholdVoltage = engine_configuration_defaults::FUEL_LEVEL_HIGH_THRESHOLD_VOLTAGE;
+
+  engineConfiguration->watchOutForLinearTime = true;
 
   setLinearCurve(engineConfiguration->tractionControlSlipBins, /*from*/0.9, /*to*/1.2, 0.05);
 	setLinearCurve(engineConfiguration->tractionControlSpeedBins, /*from*/10, /*to*/120, 5);
@@ -201,6 +246,7 @@ void setDefaultBaseEngine() {
 	config->tcuSolenoidTable[5][1] = 51;
 	config->tcuSolenoidTable[5][5] = 55;
 
+  // [tag:runNotSquareTest] huh why is this not a unit test?!
 	config->scriptTable4[0][0] = 140;
 	config->scriptTable4[0][1] = 141;
 	config->scriptTable4[0][2] = 142;

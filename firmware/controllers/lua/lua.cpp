@@ -11,6 +11,8 @@
 
 #define TAG "LUA "
 
+static bool withErrorLoading = false;
+
 #if EFI_PROD_CODE || EFI_SIMULATOR
 
 #ifndef LUA_USER_HEAP
@@ -33,6 +35,7 @@ LUA_HEAD_RAM_SECTION
 static int recentRxCount = 0;
 static int totalRxCount = 0;
 static int rxTime;
+
 
 class Heap {
 public:
@@ -78,7 +81,11 @@ public:
 		}
 
 		void *new_mem = alloc(nsize);
-		m_memoryUsed += nsize;
+
+		// Don't count the memory use if not allocated
+		if (new_mem) {
+			m_memoryUsed += nsize;
+		}
 
 		if (!ptr) {
 			// No old pointer passed in, simply return allocated block
@@ -207,6 +214,7 @@ static bool loadScript(LuaHandle& ls, const char* scriptStr) {
 	efiPrintf(TAG "loading script length: %lu...", efiStrlen(scriptStr));
 
 	if (0 != luaL_dostring(ls, scriptStr)) {
+	  withErrorLoading = true;
 		efiPrintf(TAG "ERROR loading script: %s", lua_tostring(ls, -1));
 		lua_pop(ls, 1);
 		return false;
@@ -359,7 +367,9 @@ void LuaThread::ThreadTask() {
 
 		auto usedAfterRun = userHeap.used();
 		if (usedAfterRun != 0) {
-			efiPrintf(TAG "MEMORY LEAK DETECTED: %d bytes used after teardown", usedAfterRun);
+		  if (!withErrorLoading) {
+			  efiPrintf(TAG "MEMORY LEAK DETECTED: %d bytes used after teardown", usedAfterRun);
+			}
 
 			// Lua blew up in some terrible way that left memory allocated, reset the heap
 			// so that subsequent runs don't overflow the heap

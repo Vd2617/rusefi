@@ -17,21 +17,17 @@ import com.rusefi.proxy.NetworkConnector;
 import com.rusefi.server.ControllerInfo;
 import com.rusefi.server.SessionDetails;
 import com.rusefi.server.rusEFISSLContext;
-import com.rusefi.core.FileUtil;
 import com.rusefi.tune.xml.Constant;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static com.devexperts.logging.Logging.getLogging;
 import static com.rusefi.Timeouts.READ_IMAGE_TIMEOUT;
-import static com.rusefi.config.generated.Fields.TS_FILE_VERSION;
-import static com.rusefi.config.generated.Fields.TS_FILE_VERSION_OFFSET;
 import static com.rusefi.io.tcp.TcpConnector.LOCALHOST;
 
 public class TestHelper extends MockitoTestHelper {
@@ -58,10 +54,8 @@ public class TestHelper extends MockitoTestHelper {
     @NotNull
     public static BinaryProtocolServer createVirtualController(ConfigurationImage ci, int port, Listener serverSocketCreationCallback, BinaryProtocolServer.Context context) throws IOException {
         BinaryProtocolState state = new BinaryProtocolState();
-        state.setController(ci);
+        state.setConfigurationImage(ci);
         byte[] currentOutputs = new byte[Fields.TS_TOTAL_OUTPUT_SIZE];
-        ByteBuffer buffer = FileUtil.littleEndianWrap(currentOutputs, TS_FILE_VERSION_OFFSET, 4);
-        buffer.putInt(TS_FILE_VERSION);
         state.setCurrentOutputs(currentOutputs);
 
         LinkManager linkManager = new LinkManager();

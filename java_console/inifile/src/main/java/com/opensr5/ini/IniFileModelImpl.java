@@ -3,6 +3,7 @@ package com.opensr5.ini;
 import com.devexperts.logging.Logging;
 import com.opensr5.ini.field.*;
 import com.rusefi.core.FindFileHelper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
@@ -41,15 +42,20 @@ public class IniFileModelImpl implements IniFileModel {
     private String currentXBins;
     private final Map<String, String> xBinsByZBins = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private final Map<String, String> yBinsByZBins = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private IniFileMetaInfo metaInfo;
+    private final IniFileMetaInfo metaInfo;
+    private final String iniFilePath;
 
     private boolean isInSettingContextHelp = false;
     private boolean isInsidePageDefinition;
 
-    @Override
-    public IniFileModelImpl findAndReadIniFile(String iniFilePath) {
-        String fileName = findMetaInfoFile(iniFilePath);
-        return readIniFile(fileName);
+    public static IniFileModelImpl findAndReadIniFile(String iniFilePath) {
+        final String fileName = findMetaInfoFile(iniFilePath);
+        return IniFileModelImpl.readIniFile(fileName);
+    }
+
+    private IniFileModelImpl(@Nullable final IniFileMetaInfoImpl metaInfo, final String iniFilePath) {
+        this.metaInfo = metaInfo;
+        this.iniFilePath = iniFilePath;
     }
 
     @Override
@@ -62,6 +68,11 @@ public class IniFileModelImpl implements IniFileModel {
         return allIniFields;
     }
 
+    @Override
+    public IniField getIniField(String key) {
+        IniField result = allIniFields.get(key);
+        return Objects.requireNonNull(result, () -> key + " field not found");
+    }
 
     @Override
     public Map<String, String> getProtocolMeta() {
@@ -75,6 +86,11 @@ public class IniFileModelImpl implements IniFileModel {
     }
 
     @Override
+    public String getIniFilePath() {
+        return Objects.requireNonNull(iniFilePath, "iniFilePath");
+    }
+
+    @Override
     public Map<String, String> getTooltips() {
         return tooltips;
     }
@@ -84,23 +100,34 @@ public class IniFileModelImpl implements IniFileModel {
         return fieldsInUiOrder;
     }
 
-    public IniFileModelImpl readIniFile(String fileName) {
+    public static IniFileModelImpl readIniFile(String fileName) {
         Objects.requireNonNull(fileName, "fileName");
         log.info("Reading " + fileName);
         File input = new File(fileName);
         RawIniFile content = IniFileReader.read(input);
-        metaInfo = new IniFileMetaInfoImpl(content);
-
-        readIniFile(content);
-        return this;
+        return readIniFile(content, true, fileName);
     }
 
-    public IniFileModelImpl readIniFile(RawIniFile content) {
+    /**
+     * @param initMeta - part of our tests do not use `getMetaInfo` getter and will throw MandatoryLineMissing exception
+     *                 on attempt to create IniFileMetaInfoImpl instance from test data; to avoid this exception such
+     *                 tests should use `false` as value for this parameter
+     */
+    @NotNull
+    public static IniFileModelImpl readIniFile(
+        final RawIniFile content,
+        final boolean initMeta,
+        final String iniFilePath
+    ) {
+        final IniFileModelImpl result = new IniFileModelImpl(
+            initMeta ? new IniFileMetaInfoImpl(content) : null,
+            iniFilePath
+        );
         for (RawIniFile.Line line : content.getLines()) {
-            handleLine(line);
+            result.handleLine(line);
         }
-        finishDialog();
-        return this;
+        result.finishDialog();
+        return result;
     }
 
     private static String findMetaInfoFile(String iniFilePath) {
@@ -345,8 +372,7 @@ public class IniFileModelImpl implements IniFileModel {
 
     public static synchronized IniFileModelImpl getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new IniFileModelImpl();
-            INSTANCE.findAndReadIniFile(INI_FILE_PATH);
+            INSTANCE = IniFileModelImpl.findAndReadIniFile(INI_FILE_PATH);
         }
         return INSTANCE;
     }

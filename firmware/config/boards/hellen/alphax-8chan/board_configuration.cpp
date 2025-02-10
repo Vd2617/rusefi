@@ -76,6 +76,7 @@ static void setupDefaultSensorInputs() {
 }
 
 void boardInitHardware() {
+  // technically same thing as setHellenMegaEnPin() since underlying pin E10 is same as H144_GP8
 	setHellenEnPin(Gpio::MM176_EN_PIN);
 
 	alphaCrankPPullUp.initPin("Crank-PullUp", Gpio::MM176_GP16);
@@ -131,7 +132,7 @@ void setBoardDefaultConfiguration() {
 
     setHellenMMbaro();
 
-//	engineConfiguration->mainRelayPin = Gpio::H144_OUT_IO10;
+	engineConfiguration->mainRelayPin = Gpio::MM176_GP1;
 //	engineConfiguration->fanPin = Gpio::H144_OUT_IO11;
 //	engineConfiguration->fuelPumpPin = Gpio::H144_OUT_IO12;
 //    engineConfiguration->tachOutputPin = Gpio::H144_OUT_IO13;

@@ -23,9 +23,7 @@ ifneq ("$(wildcard $(BOARD_DIR)/board_unit_tests.mk)","")
   include $(BOARD_DIR)/board_unit_tests.mk
 endif
 
-RUSEFI_LIB = $(PROJECT_DIR)/libfirmware
-include $(RUSEFI_LIB)/util/util.mk
-include $(RUSEFI_LIB)/pt2001/pt2001.mk
+include $(PROJECT_DIR)/common_libfirmware.mk
 
 # C sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
@@ -46,6 +44,7 @@ CPPSRC += $(ALLCPPSRC) \
 	$(PROJECT_DIR)/config/boards/hellen/hellen_board_id.cpp \
 	$(PROJECT_DIR)/hw_layer/drivers/can/can_hw.cpp \
 	$(PROJECT_DIR)/../unit_tests/logicdata.cpp \
+	$(PROJECT_DIR)/../unit_tests/test-framework/unit_test_logger.cpp \
 	$(PROJECT_DIR)/../unit_tests/main.cpp \
 	$(PROJECT_DIR)/../unit_tests/global_mocks.cpp \
 	$(PROJECT_DIR)/../unit_tests/mocks.cpp \

@@ -19,6 +19,7 @@
 #include "local_version_holder.h"
 #include "buttonshift.h"
 #include "gear_controller.h"
+#include "dynoview.h"
 #include "high_pressure_fuel_pump.h"
 #include "limp_manager.h"
 #include "pin_repository.h"
@@ -31,6 +32,7 @@
 #include "injector_model.h"
 #include "launch_control.h"
 #include "shift_torque_reduction_controller.h"
+#include "nitrous_controller.h"
 #include "antilag_system.h"
 #include "start_stop.h"
 #include "trigger_scheduler.h"
@@ -46,6 +48,7 @@
 #include "fuel_computer.h"
 #include "gear_detector.h"
 #include "advance_map.h"
+#include "ignition_state.h"
 #include "fan_control.h"
 #include "sensor_checker.h"
 #include "fuel_schedule.h"
@@ -56,6 +59,8 @@
 #include "efi_output.h"
 #include "vvt.h"
 #include "trip_odometer.h"
+#include "long_term_fuel_trim.h"
+#include "electronic_throttle_generated.h"
 
 #include <functional>
 
@@ -94,10 +99,6 @@ public:
 
 	StartStopState startStopState;
 
-#if ! EFI_PROD_CODE
-	// todo: technical debt: enableOverdwellProtection #3553
-	bool enableOverdwellProtection = true;
-#endif
 
 	TunerStudioOutputChannels outputChannels;
 
@@ -109,7 +110,6 @@ public:
 	// used by HW CI
 	bool isPwmEnabled = true;
 
-	const char *prevOutputName = nullptr;
 	/**
 	 * ELM327 cannot handle both RX and TX at the same time, we have to stay quite once first ISO/TP packet was detected
 	 * this is a pretty temporary hack only while we are trying ELM327, long term ISO/TP and rusEFI broadcast should find a way to coexists
@@ -119,6 +119,11 @@ public:
 #if EFI_ELECTRONIC_THROTTLE_BODY
 	IEtbController *etbControllers[ETB_COUNT] = {nullptr};
 #endif // EFI_ELECTRONIC_THROTTLE_BODY
+
+
+#if EFI_DYNO_VIEW
+  DynoView dynoInstance;
+#endif
 
 #if EFI_ENGINE_CONTROL
 	FuelComputer fuelComputer;
@@ -171,6 +176,13 @@ public:
 		BoostController,
 #endif // EFI_BOOST_CONTROL
 		TpsAccelEnrichment,
+#if EFI_LAUNCH_CONTROL
+        NitrousController,
+#endif // EFI_LAUNCH_CONTROL
+#if EFI_LTFT_CONTROL
+		LongTermFuelTrim,
+#endif
+
 		EngineModule // dummy placeholder so the previous entries can all have commas
 		> engineModules;
 
@@ -281,6 +293,7 @@ public:
 	RpmCalculator rpmCalculator;
 
 	Timer configBurnTimer;
+	Timer engineTypeChangeTimer;
 
 	/**
 	 * This counter is incremented every time user adjusts ECU parameters online (either via rusEfi console or other
@@ -303,7 +316,7 @@ public:
 	void periodicSlowCallback();
 	void updateSlowSensors();
 	void updateSwitchInputs();
-	void updateTriggerWaveform();
+	void updateTriggerConfiguration();
 
 	bool isRunningPwmTest = false;
 
@@ -318,7 +331,9 @@ public:
 	EngineState engineState;
 
 	dc_motors_s dc_motors;
+#if EFI_SENT_SUPPORT
 	sent_state_s sent_state;
+#endif
 
 	/**
 	 * idle blip is a development tool: alternator PID research for instance have benefited from a repetitive change of RPM

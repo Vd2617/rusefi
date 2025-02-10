@@ -3,7 +3,6 @@ package com.rusefi.ui.console;
 import com.devexperts.logging.Logging;
 import com.rusefi.*;
 import com.rusefi.binaryprotocol.BinaryProtocol;
-import com.rusefi.config.generated.Fields;
 import com.rusefi.config.generated.Integration;
 import com.rusefi.core.EngineState;
 import com.rusefi.io.*;
@@ -92,7 +91,7 @@ public class MainFrame {
                 ConnectionWatchdog.init(linkManager);
 
                 SwingUtilities.invokeLater(() -> {
-                    tabbedPane.settingsTab.showContent(linkManager);
+//                    tabbedPane.settingsTab.showContent(linkManager);
                     tabbedPane.logsManager.showContent();
                     /**
                      * todo: we are definitely not handling reconnect properly, no code to shut down old instance of server
@@ -104,7 +103,7 @@ public class MainFrame {
             }
         });
 
-        consoleUI.uiContext.getLinkManager().getEngineState().registerStringValueAction(Fields.PROTOCOL_VERSION_TAG, new EngineState.ValueCallback<String>() {
+        consoleUI.uiContext.getLinkManager().getEngineState().registerStringValueAction(Integration.PROTOCOL_VERSION_TAG, new EngineState.ValueCallback<String>() {
             @Override
             public void onUpdate(String firmwareVersion) {
                 Launcher.firmwareVersion.set(firmwareVersion);

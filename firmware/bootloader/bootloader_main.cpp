@@ -41,9 +41,19 @@ protected:
 		{
 			ioportid_t en_port = getHwPort("blt-en-pin", BOOTLOADER_ENABLE_OUTPUT_PIN);
 			uint8_t en_pin = getHwPin("blt-en-pin", BOOTLOADER_ENABLE_OUTPUT_PIN);
+			palSetPadMode(en_port, en_pin, PAL_MODE_OUTPUT_PUSHPULL);
 			palWritePad(en_port, en_pin, 1);
 		}
 #endif // BOOTLOADER_ENABLE_OUTPUT_PIN
+
+#ifdef BOOTLOADER_ENABLE_OUTPUT_PIN2
+		{
+			ioportid_t en_port = getHwPort("blt-en-pin2", BOOTLOADER_ENABLE_OUTPUT_PIN2);
+			uint8_t en_pin = getHwPin("blt-en-pin2", BOOTLOADER_ENABLE_OUTPUT_PIN2);
+			palSetPadMode(en_port, en_pin, PAL_MODE_OUTPUT_PUSHPULL);
+			palWritePad(en_port, en_pin, 1);
+		}
+#endif // BOOTLOADER_ENABLE_OUTPUT_PIN2
 
 #ifdef BOOTLOADER_DISABLE_GREEN_LED
 		greenPort = NULL;
@@ -144,7 +154,7 @@ void efiSetPadMode(const char* msg, brain_pin_e brainPin, iomode_t mode) {
 	ioportid_t port = getHwPort(msg, brainPin);
 	ioportmask_t pin = getHwPin(msg, brainPin);
 	/* paranoid */
-	if (port == GPIO_NULL) {
+	if (!port) {
 		return;
 	}
 

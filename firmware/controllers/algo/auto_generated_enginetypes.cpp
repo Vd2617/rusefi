@@ -1,6 +1,6 @@
 #include "global.h"
 #include "engine_types.h"
-// was generated automatically by rusEFI tool  from engine_types.h // by enum_to_string.jar tool on Wed Oct 09 23:14:35 UTC 2024
+// was generated automatically by rusEFI tool  from engine_types.h // by enum_to_string.jar tool on Sun Feb 02 18:05:12 UTC 2025
 // see also gen_config_and_enums.bat
 
 
@@ -67,6 +67,14 @@ case HD_ACR:
   return "HD_ACR";
 case HD_ACR2:
   return "HD_ACR2";
+case LUA_COMMAND_1:
+  return "LUA_COMMAND_1";
+case LUA_COMMAND_2:
+  return "LUA_COMMAND_2";
+case LUA_COMMAND_3:
+  return "LUA_COMMAND_3";
+case LUA_COMMAND_4:
+  return "LUA_COMMAND_4";
   }
  return NULL;
 }
@@ -108,6 +116,8 @@ case DBG_29:
   return "DBG_29";
 case DBG_32:
   return "DBG_32";
+case DBG_33:
+  return "DBG_33";
 case DBG_34:
   return "DBG_34";
 case DBG_35:
@@ -134,8 +144,6 @@ case DBG_9:
   return "DBG_9";
 case DBG_COMPOSITE_LOG:
   return "DBG_COMPOSITE_LOG";
-case DBG_DWELL_METRIC:
-  return "DBG_DWELL_METRIC";
 case DBG_DYNO_VIEW:
   return "DBG_DYNO_VIEW";
 case DBG_ELECTRONIC_THROTTLE_PID:
@@ -241,6 +249,8 @@ case trigger_type_e::TT_HALF_MOON:
   return "TT_HALF_MOON";
 case trigger_type_e::TT_HONDA_CBR_600:
   return "TT_HONDA_CBR_600";
+case trigger_type_e::TT_HONDA_J30A2_24_1_1:
+  return "TT_HONDA_J30A2_24_1_1";
 case trigger_type_e::TT_HONDA_K_CAM_4_1:
   return "TT_HONDA_K_CAM_4_1";
 case trigger_type_e::TT_HONDA_K_CRANK_12_1:
@@ -394,6 +404,16 @@ case TS_RESET_MC33810:
   return "TS_RESET_MC33810";
 case TS_RESET_TLE8888:
   return "TS_RESET_TLE8888";
+case TS_SD_DELETE_REPORTS:
+  return "TS_SD_DELETE_REPORTS";
+case TS_SD_FORMAT:
+  return "TS_SD_FORMAT";
+case TS_SD_MOUNT_ECU:
+  return "TS_SD_MOUNT_ECU";
+case TS_SD_MOUNT_PC:
+  return "TS_SD_MOUNT_PC";
+case TS_SD_UNMOUNT:
+  return "TS_SD_UNMOUNT";
 case TS_TRIGGER_STIMULATOR_DISABLE:
   return "TS_TRIGGER_STIMULATOR_DISABLE";
 case TS_TRIGGER_STIMULATOR_ENABLE:

@@ -112,10 +112,20 @@ void startWatchdog(int timeoutMs) {
 	static WDGConfig wdgcfg;
 	wdgcfg.pr = STM32_IWDG_PR_64;	// t = (1/32768) * 64 = ~2 ms
 	wdgcfg.rlr = STM32_IWDG_RL((uint32_t)((32.768f / 64.0f) * timeoutMs));
-#if 0
-  efiPrintf("[wdgStart]");
+#if STM32_IWDG_IS_WINDOWED
+	wdgcfg.winr = 0xfff; // don't use window
 #endif
-	wdgStart(&WDGD1, &wdgcfg);
+
+    static bool isStarted = false;
+    if (!isStarted) {
+		efiPrintf("Starting watchdog with timeout %d ms...", timeoutMs);
+		wdgStart(&WDGD1, &wdgcfg);
+		isStarted = true;
+	} else {
+		efiPrintf("Changing watchdog timeout to %d ms...", timeoutMs);
+		// wdgStart() uses kernel lock, thus we cannot call it here from locked or ISR code
+		wdg_lld_start(&WDGD1);
+	}
 #endif // HAL_USE_WDG
 }
 
@@ -140,14 +150,11 @@ void tryResetWatchdog() {
 #endif // HAL_USE_WDG
 }
 
-void baseMCUInit(void) {
+void baseMCUInit() {
 	// looks like this holds a random value on start? Let's set a nice clean zero
 	DWT->CYCCNT = 0;
 
 	BOR_Set(BOR_Level_1); // one step above default value
-
-	setWatchdogResetPeriod(WATCHDOG_RESET_MS);
-	startWatchdog();
 }
 
 extern uint32_t __main_stack_base__;

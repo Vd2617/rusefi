@@ -77,7 +77,10 @@ inputs:
     description: '.properties file to store GHA outputs (unfortunately GHA outputs do not work for nested GHA - see https://github.com/actions/runner/issues/2009#issuecomment-1793565031)'
     required: false
     default: ''
-
+  extra_files_to_copy_on_image_folder:
+    description: 'Relative path to the folder with extra files to copy on image (from rusefi/firmware folder)'
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps:
@@ -181,6 +184,7 @@ runs:
         echo "BUNDLE_NAME=$BUNDLE_NAME" >> $GITHUB_ENV
         echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
         echo "EXTRA_LIVE_DATA_FILE=${{inputs.EXTRA_LIVE_DATA_FILE}}" >> $GITHUB_ENV
+        echo "EXTRA_FILES_TO_COPY_ON_IMAGE_FOLDER=${{inputs.extra_files_to_copy_on_image_folder}}" >> $GITHUB_ENV
 
 
     - name: Set Build Env Variables
@@ -299,6 +303,11 @@ runs:
         echo DONE: bootloader
         ls -l bootloader/blbuild
 
+    - name: Gradle tune-tools separately
+      working-directory: ${{inputs.rusefi_dir}}/java_tools
+      shell: bash
+      run: ./gradlew :tune-tools:shadowJar
+
     - name: Invoking Post-bootloader Action
       shell: bash
       run: |
@@ -313,7 +322,7 @@ runs:
       run: |
         : Build Firmware
         if [ "$RUN_SIMULATOR" == "true" ]; then
-          TARGETS=("../simulator/build/rusefi_simulator.linux" "../java_tools/tune-tools/build/libs/tune-tools-all.jar")
+          TARGETS=("../simulator/build/rusefi_simulator.linux")
         fi
         bash bin/compile.sh $BOARD_META_PATH --output-sync=recurse ${{inputs.artifacts}} ${{inputs.uploads}} ${TARGETS[@]}
 
@@ -352,8 +361,7 @@ runs:
         ls ${{inputs.sim_output}}
         git config advice.addIgnoredFile false
         git add ${{inputs.sim_output}}*msq
-        git add ${{inputs.sim_output}}canned-tunes/*md
-        OUT=$(git commit -m "Auto-generated Default Tune" -m "[no ci]" 2>&1) || echo "commit failed, finding out why"
+        OUT=$(git commit -m "Auto-generated Default Tune (custom board)" -m "[no ci]" 2>&1) || echo "commit failed, finding out why"
         if echo "$OUT" | grep 'nothing to commit'; then
           echo "Tune: looks like nothing to commit"
           exit 0
@@ -449,6 +457,22 @@ runs:
       with:
         name: rusefi.map
         path: ${{inputs.rusefi_dir}}/firmware/build/rusefi*.map
+
+    # sad: we have duplication with build-firmware.yaml :(
+    # todo: is this insanity? does not gcc produce similar file directly?
+    - name: elf2text
+      shell: bash
+      if: ${{ contains(inputs.artifacts, 'elf') }}
+      working-directory: ${{inputs.rusefi_dir}}/firmware/build
+      run: |
+        arm-none-eabi-objdump -d rusefi.elf > rusefi.txt
+
+    - name: Upload github action text artifact
+      if: ${{ contains(inputs.artifacts, 'elf') }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: rusefi.txt
+        path: ${{inputs.rusefi_dir}}/firmware/build/rusefi*.txt
 
     - name: Upload github action elf artifact
       if: ${{ contains(inputs.artifacts, 'elf') }}

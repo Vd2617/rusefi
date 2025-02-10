@@ -283,17 +283,18 @@ void onFastAdcComplete(adcsample_t*) {
 
 #if EFI_SENSOR_CHART && EFI_SHAFT_POSITION_INPUT
 	if (getEngineState()->sensorChartMode == SC_AUX_FAST1) {
-		float voltage = getAdcValue("fAux1", engineConfiguration->auxFastSensor1_adcChannel);
+		/* Why we use raw value here? */
+		float voltage = adcGetRawValue("fAux1", engineConfiguration->auxFastSensor1_adcChannel);
 		scAddData(engine->triggerCentral.getCurrentEnginePhase(getTimeNowNt()).value_or(0), voltage);
 	}
 #endif /* EFI_SENSOR_CHART */
 
 #if EFI_MAP_AVERAGING
-	mapAveragingAdcCallback(adcToVoltsDivided(getFastAdc(fastMapSampleIndex), engineConfiguration->map.sensor.hwChannel));
+	mapAveragingAdcCallback(adcRawValueToScaledVoltage(getFastAdc(fastMapSampleIndex), engineConfiguration->map.sensor.hwChannel));
 #endif /* EFI_MAP_AVERAGING */
 #if EFI_HIP_9011
 	if (engineConfiguration->isHip9011Enabled) {
-		hipAdcCallback(adcToVoltsDivided(getFastAdc(hipSampleIndex), engineConfiguration->hipOutputChannel));
+		hipAdcCallback(adcRawValueToScaledVoltage(getFastAdc(hipSampleIndex), engineConfiguration->hipOutputChannel));
 	}
 #endif /* EFI_HIP_9011 */
 }
@@ -339,7 +340,7 @@ void applyNewHardwareSettings() {
 	stopTriggerInputPins();
 #endif /* EFI_SHAFT_POSITION_INPUT */
 
-#if EFI_SENT_SUPPORT
+#if EFI_PROD_CODE && EFI_SENT_SUPPORT
 	stopSent();
 #endif // EFI_SENT_SUPPORT
 
@@ -422,7 +423,7 @@ void applyNewHardwareSettings() {
 	startVvtControlPins();
 #endif /* EFI_VVT_PID */
 
-#if EFI_SENT_SUPPORT
+#if EFI_PROD_CODE && EFI_SENT_SUPPORT
 	startSent();
 #endif
 
@@ -637,7 +638,7 @@ void initHardware() {
 	cdmIonInit();
 #endif // EFI_CDM_INTEGRATION
 
-#if EFI_SENT_SUPPORT
+#if EFI_PROD_CODE && EFI_SENT_SUPPORT
 	initSent();
 #endif
 
@@ -652,39 +653,4 @@ void initHardware() {
 	startHardware();
 
 	efiPrintf("initHardware() OK!");
-}
-
-#if HAL_USE_SPI
-// this is F4 implementation but we will keep it here for now for simplicity
-int getSpiPrescaler(spi_speed_e speed, spi_device_e device) {
-	switch (speed) {
-	case _5MHz:
-		return device == SPI_DEVICE_1 ? SPI_BaudRatePrescaler_16 : SPI_BaudRatePrescaler_8;
-	case _2_5MHz:
-		return device == SPI_DEVICE_1 ? SPI_BaudRatePrescaler_32 : SPI_BaudRatePrescaler_16;
-	case _1_25MHz:
-		return device == SPI_DEVICE_1 ? SPI_BaudRatePrescaler_64 : SPI_BaudRatePrescaler_32;
-
-	case _150KHz:
-		// SPI1 does not support 150KHz, it would be 300KHz for SPI1
-		return SPI_BaudRatePrescaler_256;
-	default:
-		// unexpected
-		return 0;
-	}
-}
-
-#endif /* HAL_USE_SPI */
-
-void checkLastResetCause() {
-#if EFI_PROD_CODE
-	Reset_Cause_t cause = getMCUResetCause();
-	const char *causeStr = getMCUResetCause(cause);
-	efiPrintf("Last Reset Cause: %s", causeStr);
-
-	// if reset by watchdog, signal a fatal error
-	if (cause == Reset_Cause_IWatchdog || cause == Reset_Cause_WWatchdog) {
-		firmwareError(ObdCode::OBD_PCM_Processor_Fault, "Watchdog Reset");
-	}
-#endif // EFI_PROD_CODE
 }

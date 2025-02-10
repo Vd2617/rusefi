@@ -52,7 +52,7 @@ static const scsi_inquiry_response_t iniDriveInquiry = {
     0x80,           /* removable                      */
     0x04,           /* SPC-2                          */
     0x02,           /* response data format           */
-    0x20,           /* response has 0x20 + 4 bytes    */
+    sizeof(scsi_inquiry_response_t) - 5,	// size of this struct, minus bytes up to and including this one
     0x00,
     0x00,
     0x00,
@@ -66,7 +66,7 @@ static const scsi_inquiry_response_t sdCardInquiry = {
     0x80,           /* removable                      */
     0x04,           /* SPC-2                          */
     0x02,           /* response data format           */
-    0x20,           /* response has 0x20 + 4 bytes    */
+    sizeof(scsi_inquiry_response_t) - 5,	// size of this struct, minus bytes up to and including this one
     0x00,
     0x00,
     0x00,
@@ -81,6 +81,15 @@ void attachMsdSdCard(BaseBlockDevice* blkdev) {
 #if EFI_TUNER_STUDIO
 	// SD MSD attached, enable indicator in TS
 	engine->outputChannels.sd_msd = true;
+#endif
+}
+
+void deattachMsdSdCard(void) {
+	msd.attachLun(1, (BaseBlockDevice*)&ND1, blkbuf1, &sdCardInquiry, nullptr);
+
+#if EFI_TUNER_STUDIO
+	// SD MSD attached, enable indicator in TS
+	engine->outputChannels.sd_msd = false;
 #endif
 }
 

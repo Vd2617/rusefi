@@ -29,20 +29,14 @@
 #include "periodic_thread_controller.h"
 #include "protected_gpio.h"
 
-// Board voltage, with divider coefficient accounted for
-float getVoltageDivided(const char *msg, adc_channel_e hwChannel) {
-	return getVoltage(msg, hwChannel) * getAnalogInputDividerCoefficient(hwChannel);
+// voltage in MCU universe, from zero to Vref
+float adcGetRawVoltage(const char *msg, adc_channel_e hwChannel) {
+	return adcRawValueToRawVoltage(adcGetRawValue(msg, hwChannel));
 }
 
-float PUBLIC_API_WEAK boardAdjustVoltage(float voltage, adc_channel_e hwChannel) {
-  // a hack useful when we do not trust voltage just after board EN was turned on. is this just hiding electrical design flaws?
-  return voltage;
-}
-
-// voltage in MCU universe, from zero to VDD
-float getVoltage(const char *msg, adc_channel_e hwChannel) {
-	float voltage = adcToVolts(getAdcValue(msg, hwChannel));
-	return boardAdjustVoltage(voltage, hwChannel);
+// voltage in ECU universe, with all input dividers and OpAmps gains taken into account, voltage at ECU connector pin
+float adcGetScaledVoltage(const char *msg, adc_channel_e hwChannel) {
+	return adcGetRawVoltage(msg, hwChannel) * getAnalogInputDividerCoefficient(hwChannel);
 }
 
 #if EFI_USE_FAST_ADC
@@ -235,11 +229,8 @@ adcsample_t AdcDevice::getAvgAdcValue(adc_channel_e hwChannel) {
 
 	for (size_t i = 0; i < depth; i++) {
 		adcsample_t sample = samples[index];
-//		if (sample > 0x1FFF) {
-//			// 12bit ADC expected right now, make this configurable one day
-//			criticalError("fast ADC unexpected sample %d", sample);
-//		} else
 		if (sample > ADC_MAX_VALUE) {
+		  // 12bit ADC expected right now. An error here usually means major RAM corruption?
  			criticalError("ADC unexpected sample %d at %ld uptime.",
 				sample,
 				(uint32_t)getTimeNowS());

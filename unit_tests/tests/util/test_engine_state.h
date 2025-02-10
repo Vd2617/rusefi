@@ -8,8 +8,9 @@ class TestEngineState {
 public:
     static TestEngineState& getInstance();
 
-    void setLuaSoftSparkSkip(float value);
-    void setLuaHardSparkSkip(float value);
+    float getInjectionStage2Fraction() const;
+    floatms_t getInjectionDuration() const;
+    floatms_t getInjectionDurationStage2() const;
 private:
     TestEngineState();
     static TestEngineState instance;

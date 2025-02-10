@@ -93,9 +93,14 @@ expected<float> InjectionEvent::computeInjectionAngle() const {
 		return unexpected;
 	}
 
+	float fuelMs = getEngineState()->injectionDuration;
+	if (std::isnan(fuelMs)) {
+		return unexpected;
+	}
+
 	// injection phase may be scheduled by injection end, so we need to step the angle back
 	// for the duration of the injection
-	angle_t injectionDurationAngle = getInjectionAngleCorrection(getEngineState()->injectionDuration, oneDegreeUs);
+	angle_t injectionDurationAngle = getInjectionAngleCorrection(fuelMs, oneDegreeUs);
 
 	// User configured offset - degrees after TDC combustion
 	floatus_t injectionOffset = getEngineState()->injectionOffset;
@@ -160,7 +165,7 @@ bool InjectionEvent::update() {
 		injectorIndex = 0;
 	} else if (mode == IM_SEQUENTIAL || mode == IM_BATCH) {
 		// Map order index -> cylinder index (firing order)
-		injectorIndex = ID2INDEX(getFiringOrderCylinderId(ownIndex));
+		injectorIndex = getCylinderNumberAtIndex(ownIndex);
 	} else {
 		firmwareError(ObdCode::CUSTOM_OBD_UNEXPECTED_INJECTION_MODE, "Unexpected injection mode %d", mode);
 		injectorIndex = 0;
@@ -177,7 +182,7 @@ bool InjectionEvent::update() {
 		// Each injector gets fired as a primary (the same as sequential), but also
 		// fires the injector 360 degrees later in the firing order.
 		int secondOrder = (ownIndex + (engineConfiguration->cylindersCount / 2)) % engineConfiguration->cylindersCount;
-		int secondIndex = ID2INDEX(getFiringOrderCylinderId(secondOrder));
+		int secondIndex = getCylinderNumberAtIndex(secondOrder);
 		secondOutput = &enginePins.injectors[secondIndex];
 		secondOutputStage2 = &enginePins.injectorsStage2[secondIndex];
 	} else {

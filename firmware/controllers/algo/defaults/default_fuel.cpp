@@ -81,7 +81,7 @@ static void setDefaultWarmupFuelEnrichment() {
 
 static void setDefaultVETable() {
 	setRpmTableBin(config->veRpmBins);
-#if (IGN_LOAD_COUNT == 16) && (IGN_RPM_COUNT == 16)
+#if (VE_LOAD_COUNT == 16) && (VE_RPM_COUNT == 16)
 	static const float hardCodedveTable[16][16] = {
 {49.300,	49.300,	49.400,	49.600,	50.200,	51.400,	52.600,	53.800,	54.400,	54.600,	54.400,	53.700,	52.800,	51.800,	50.900,	50.000,	},
 {49.600,	50.500,	51.500,	54.100,	57.500,	60.700,	62.900,	64.400,	65.000,	65.000,	64.500,	63.500,	62.300,	61.100,	60.000,	58.800,	},
@@ -124,6 +124,14 @@ static void setDefaultVETable() {
 	for (size_t i = 0; i < efi::size(config->veBlends); i++) {
 		auto& blend = config->veBlends[i];
 		setLinearCurve(blend.loadBins, 0, 100, 10);
+		setLinearCurve(blend.rpmBins, 0, 7000);
+
+		setLinearCurve(blend.blendBins, 0, 100);
+		setLinearCurve(blend.blendValues, 0, 100);
+	}
+
+	for (size_t i = 0; i < efi::size(config->targetAfrBlends); i++) {
+		auto& blend = config->targetAfrBlends[i];
 		setLinearCurve(blend.rpmBins, 0, 7000);
 
 		setLinearCurve(blend.blendBins, 0, 100);

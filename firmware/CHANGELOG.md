@@ -28,7 +28,31 @@ Release template (copy/paste this for new release):
 
 ## Unreleased
 
-## November 2024 "Day 993"
+## February 2025 "Day 1075"
+
+### Added
+ - Flex Fuel sensor settings should be under "Fuel sensor" #7097
+ - GM SENT fuel pressure sensor #6997
+ - ETB calibration automatically enables ETB if needed #7197
+ - Fuel Level Sensor should have a RAW option #6979
+ - SD card bit data points #7227
+ - stm32 build-in watchdog for F7/H7 #1339
+ - improvements to SD card management #7327
+ - FatFS: update to latest R0.15a version #7315
+ - Honda J30 trigger wheel
+
+### Fixed
+ - Critical error when using big values on Boost Control Open Loop with Y axis as MAP #7093
+ - "Baro Correction" axis label
+ - unused "Throttle Up switch" is removed
+ - Lua: fix heap used accumulator calculation: Do not increase if allocation failed #6924
+ - Check Engine output hidden since the whole feature pretty much does not exist
+
+### Breaking Changes
+ - Lua: onCanRx parameter value to be use Lua-indexing #7110
+ - After start enrichment Engine Cycles is now represented with U16 data type
+
+## November 2024 "Day 998"
 
 ### Added
  - Support wasted spark on odd cylinder count 4-stroke engines. Improves startup and allows running without a cam sensor!
@@ -47,6 +71,10 @@ Release template (copy/paste this for new release):
  - Organize sensor categories #6856
  - USB serial is sometimes lost #6595
  - fix detect cylinder for knock then wasted_spark #7062
+ - Change BMW E46 CAN interval to 10 ms #6974
+
+### Breaking Changes
+- Now secondary injectors use `Secondary injector flow compensation mode` and `Secondary injector reference pressure` instead of `Injector flow compensation mode` and `Injector reference pressure` Tuner Studio settings #6972
 
 ## August 2024 "Day 898"
 

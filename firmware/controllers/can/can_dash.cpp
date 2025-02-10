@@ -86,12 +86,7 @@ void canDashboardHaltech(CanCycle cycle);
 //todo: we use 50ms fixed cycle, trace is needed to check for correct period
 static void canDashboardBmwE46(CanCycle cycle) {
 
-	if (cycle.isInterval(CI::_50ms)) {
-		{
-			CanTxMessage msg(CanCategory::NBC, CAN_BMW_E46_SPEED);
-			msg.setShortValue(10 * 8, 1);
-		}
-
+	if (cycle.isInterval(CI::_10ms)) {
 		{
 			CanTxMessage msg(CanCategory::NBC, CAN_BMW_E46_RPM);
       msg[0] = 0x05; // ASC message

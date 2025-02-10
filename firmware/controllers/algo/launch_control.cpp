@@ -11,10 +11,8 @@
 #if EFI_LAUNCH_CONTROL
 #include "boost_control.h"
 #include "launch_control.h"
-#include "advance_map.h"
 #include "engine_state.h"
-#include "advance_map.h"
-#include "tinymt32.h"
+#include "tinymt32.h" // TL,DR: basic implementation of 'random'
 
 /**
  * We can have active condition from switch or from clutch.
@@ -203,8 +201,8 @@ bool SoftSparkLimiter::shouldSkip()  {
 		return false;
 	}
 
-	float r = tinymt32_generate_float(&tinymt);
-	wasJustSkipped = r < (allowHardCut ? 1 : 2) * targetSkipRatio;
+	float random = tinymt32_generate_float(&tinymt);
+	wasJustSkipped = random < (allowHardCut ? 1 : 2) * targetSkipRatio;
 	return wasJustSkipped;
 }
 

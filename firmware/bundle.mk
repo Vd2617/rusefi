@@ -32,15 +32,22 @@ endif
 ifeq ($(AUTOMATION_LTS),true)
 ifneq (,$(AUTOMATION_REF))
   BRANCH_PART_OF_FOLDER=$(AUTOMATION_REF)
+  BRANCH_REF_FOR_BUNDLE=$(AUTOMATION_REF)
 else
   BRANCH_PART_OF_FOLDER=lts_unknown
+  BRANCH_REF_FOR_BUNDLE=lts_unknown
 endif
 else
   # todo: (as long as not Windows linux?) invoke bin/find_branch_name_or_snapshot.sh instead?
   BRANCH_PART_OF_FOLDER=snapshot
+  BRANCH_REF_FOR_BUNDLE=development
 endif
 
-FOLDER = rusefi.$(BRANCH_PART_OF_FOLDER).$(BUNDLE_NAME)
+# todo: replace all usages of $(FOLDER) with $(STAGING_FOLDER) just to make code search simpler
+FOLDER         = rusefi.$(BRANCH_PART_OF_FOLDER).$(BUNDLE_NAME)
+STAGING_FOLDER = rusefi.$(BRANCH_PART_OF_FOLDER).$(BUNDLE_NAME)
+
+BRANCH_REF_FILE = $(STAGING_FOLDER)/release.txt
 
 DELIVER = deliver
 ARTIFACTS = ../artifacts
@@ -66,17 +73,16 @@ ifneq ($(BUNDLE_SIMULATOR),false)
 endif
 
 UPDATE_CONSOLE_FOLDER_SOURCES = \
-  $(CONSOLE_OUT) \
-  $(TS_PLUGIN_LAUNCHER_OUT) \
-  $(AUTOUPDATE_OUT)
+  $(CONSOLE_JAR) \
+  $(BRANCH_REF_FILE) \
+  $(TS_PLUGIN_LAUNCHER_JAR) \
+  $(AUTOUPDATE_JAR)
 
 # todo: remove BootCommander.exe once https://github.com/rusefi/rusefi/issues/6358 is done
 
 CONSOLE_FOLDER_SOURCES = \
   ../misc/console_launcher/rusefi_autoupdate.exe \
   ../misc/console_launcher/rusefi_console.exe \
-  ../misc/install/openocd \
-  ../misc/install/STM32_Programmer_CLI \
   $(wildcard ../java_console/*.dll) \
   ../firmware/ext/openblt/Host/libopenblt.dll \
   ../firmware/ext/openblt/Host/BootCommander.exe \
@@ -86,6 +92,15 @@ CONSOLE_FOLDER_SOURCES = \
   ../firmware/ext/openblt/Host/libopenblt_jni.so \
   ../firmware/ext/openblt/Host/libopenblt_jni.dylib \
   $(SIMULATOR_EXE)
+
+# yes, this one is inverted
+ifneq ($(DO_NOT_BUNDLE_STM32_PROG),yes)
+  CONSOLE_FOLDER_SOURCES += ../misc/install/STM32_Programmer_CLI
+endif
+
+ifeq ($(BUNDLE_OPENOCD),yes)
+  CONSOLE_FOLDER_SOURCES += ../misc/install/openocd
+endif
 
 BOOTLOADER_BIN = bootloader/blbuild/openblt_$(PROJECT_BOARD).bin
 BOOTLOADER_HEX = bootloader/blbuild/openblt_$(PROJECT_BOARD).hex
@@ -215,8 +230,12 @@ $(OBFUSCATED_OUT): .obfuscated-sentinel
 $(ST_DRIVERS): | $(DRIVERS_FOLDER)
 	wget https://rusefi.com/build_server/st_files/silent_st_drivers2.exe -P $(dir $@)
 
-$(DELIVER) $(ARTIFACTS) $(FOLDER) $(CONSOLE_FOLDER) $(DRIVERS_FOLDER):
+$(DELIVER) $(ARTIFACTS) $(STAGING_FOLDER) $(CONSOLE_FOLDER) $(DRIVERS_FOLDER):
 	mkdir -p $@
+
+$(BRANCH_REF_FILE):
+	cp $(PROJECT_DIR)/../release.txt $(BRANCH_REF_FILE)
+	echo "platform=$(BUNDLE_NAME)" >> $(BRANCH_REF_FILE) ; echo "release=$(BRANCH_REF_FOR_BUNDLE)" >> $(BRANCH_REF_FILE)
 
 $(ARTIFACTS)/$(WHITE_LABEL_BUNDLE_NAME).zip: $(BUNDLE_FILES) | $(ARTIFACTS)
 	zip -r $@ $(BUNDLE_FILES)

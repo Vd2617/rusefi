@@ -31,7 +31,7 @@ public class MassUpdater {
         SerialPortScanner.INSTANCE.addListener(currentHardware -> {
 
             if (!isUsingDfu.get() && currentHardware.isDfuFound() != previousDfuState.get()) {
-                mainStatus.append(currentHardware.isDfuFound() ? "I see a DFU device!" : "No DFU...");
+                mainStatus.getContent().logLine(currentHardware.isDfuFound() ? "I see a DFU device!" : "No DFU...");
                 if (currentHardware.isDfuFound()) {
                     isUsingDfu.set(true);
                     UpdateOperationCallbacks releaseSemaphore = new UpdateOperationCallbacks() {
@@ -49,8 +49,15 @@ public class MassUpdater {
                         public void error() {
                             isUsingDfu.set(false);
                         }
+
+                        @Override
+                        public void clear() {}
                     };
-                    SwingUtilities.invokeLater(() -> AsyncJobExecutor.INSTANCE.executeJob(new DfuManualJob(), releaseSemaphore));
+                    SwingUtilities.invokeLater(() -> AsyncJobExecutor.INSTANCE.executeJobWithStatusWindow(
+                        new DfuManualJob(),
+                        releaseSemaphore,
+                        () -> {}
+                    ));
                 }
                 previousDfuState.set(currentHardware.isDfuFound());
             }
@@ -60,16 +67,16 @@ public class MassUpdater {
             for (Iterator<String> it = knownBlts.iterator(); it.hasNext(); ) {
                 String port = it.next();
                 if (!currentSet.contains(port)) {
-                    mainStatus.append(port + ": No longer present");
+                    mainStatus.getContent().logLine(port + ": No longer present");
                     it.remove();
                 }
             }
             for (SerialPortScanner.PortResult openBltPort : currentBltList) {
                 if (!knownBlts.contains(openBltPort.port)) {
                     knownBlts.add(openBltPort.port);
-                    mainStatus.append("New OpenBlt " + openBltPort);
+                    mainStatus.getContent().logLine("New OpenBlt " + openBltPort);
 
-                    SwingUtilities.invokeLater(() -> AsyncJobExecutor.INSTANCE.executeJob(new OpenBltManualJob(openBltPort, mainStatus.getContent())));
+                    SwingUtilities.invokeLater(() -> AsyncJobExecutor.INSTANCE.executeJobWithStatusWindow(new OpenBltManualJob(openBltPort, mainStatus.getContent())));
                 }
             }
         });

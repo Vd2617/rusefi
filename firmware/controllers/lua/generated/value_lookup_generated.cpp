@@ -248,9 +248,9 @@ float getConfigValueByName(const char *name) {
 // launchTimingRetard
 		case 1226423210:
 			return engineConfiguration->launchTimingRetard;
-// hip9011PrescalerAndSDO
-		case -1310663509:
-			return engineConfiguration->hip9011PrescalerAndSDO;
+// hip9011Prescaler
+		case 1548430930:
+			return engineConfiguration->hip9011Prescaler;
 // alternator_iTermMin
 		case 107641733:
 			return engineConfiguration->alternator_iTermMin;
@@ -335,9 +335,6 @@ float getConfigValueByName(const char *name) {
 // idle_derivativeFilterLoss
 		case -1269130308:
 			return engineConfiguration->idle_derivativeFilterLoss;
-// trailingSparkAngle
-		case 274318471:
-			return engineConfiguration->trailingSparkAngle;
 // trigger.customTotalToothCount
 		case 1212570205:
 			return engineConfiguration->trigger.customTotalToothCount;
@@ -533,9 +530,6 @@ float getConfigValueByName(const char *name) {
 // finalIgnitionCutPercentBeforeLaunch
 		case 47348059:
 			return engineConfiguration->finalIgnitionCutPercentBeforeLaunch;
-// vehicleWeight
-		case 1549866701:
-			return engineConfiguration->vehicleWeight;
 // idlePidRpmUpperLimit
 		case 1962548154:
 			return engineConfiguration->idlePidRpmUpperLimit;
@@ -614,9 +608,6 @@ float getConfigValueByName(const char *name) {
 // suppressWboWorkaround7048
 		case -1190865359:
 			return engineConfiguration->suppressWboWorkaround7048;
-// showHumanReadableWarning
-		case 2046602309:
-			return engineConfiguration->showHumanReadableWarning;
 // stftIgnoreErrorMagnitude
 		case 1838375282:
 			return engineConfiguration->stftIgnoreErrorMagnitude;
@@ -773,9 +764,6 @@ float getConfigValueByName(const char *name) {
 // fuelClosedLoopCorrectionEnabled
 		case 1611799720:
 			return engineConfiguration->fuelClosedLoopCorrectionEnabled;
-// oddFireEngine
-		case -111377544:
-			return engineConfiguration->oddFireEngine;
 // alwaysWriteSdCard
 		case 787397010:
 			return engineConfiguration->alwaysWriteSdCard;
@@ -962,9 +950,6 @@ float getConfigValueByName(const char *name) {
 // knockDetectionWindowStart
 		case -339821344:
 			return engineConfiguration->knockDetectionWindowStart;
-// knockDetectionWindowEnd
-		case -1562133783:
-			return engineConfiguration->knockDetectionWindowEnd;
 // idleStepperReactionTime
 		case 1145888170:
 			return engineConfiguration->idleStepperReactionTime;
@@ -1901,9 +1886,111 @@ float getConfigValueByName(const char *name) {
 // knockFrequency
 		case 1972605869:
 			return engineConfiguration->knockFrequency;
+// secondaryInjectorFuelReferencePressure
+		case -425992769:
+			return engineConfiguration->secondaryInjectorFuelReferencePressure;
+// nitrousControlEnabled
+		case -582951931:
+			return engineConfiguration->nitrousControlEnabled;
+// nitrousControlTriggerPinInverted
+		case -1483164266:
+			return engineConfiguration->nitrousControlTriggerPinInverted;
+// nitrousLuaGaugeArmingValue
+		case -1760115393:
+			return engineConfiguration->nitrousLuaGaugeArmingValue;
+// nitrousMinimumTps
+		case 1089367148:
+			return engineConfiguration->nitrousMinimumTps;
+// nitrousMinimumClt
+		case 1089348504:
+			return engineConfiguration->nitrousMinimumClt;
+// nitrousMaximumMap
+		case -677571211:
+			return engineConfiguration->nitrousMaximumMap;
+// nitrousMaximumAfr
+		case -677584112:
+			return engineConfiguration->nitrousMaximumAfr;
+// nitrousActivationRpm
+		case -469950118:
+			return engineConfiguration->nitrousActivationRpm;
+// nitrousDeactivationRpm
+		case 1072117635:
+			return engineConfiguration->nitrousDeactivationRpm;
+// nitrousDeactivationRpmWindow
+		case -1786673317:
+			return engineConfiguration->nitrousDeactivationRpmWindow;
+// dfcoRetardDeg
+		case 601094003:
+			return engineConfiguration->dfcoRetardDeg;
+// dfcoRetardRampInTime
+		case 2030571545:
+			return engineConfiguration->dfcoRetardRampInTime;
+// nitrousFuelAdderPercent
+		case -1197734314:
+			return engineConfiguration->nitrousFuelAdderPercent;
+// nitrousIgnitionRetard
+		case -617548836:
+			return engineConfiguration->nitrousIgnitionRetard;
+// nitrousMinimumVehicleSpeed
+		case 1658738502:
+			return engineConfiguration->nitrousMinimumVehicleSpeed;
+// fuelLevelAveragingAlpha
+		case 2094922339:
+			return engineConfiguration->fuelLevelAveragingAlpha;
+// fuelLevelUpdatePeriodSec
+		case 128251338:
+			return engineConfiguration->fuelLevelUpdatePeriodSec;
+// fuelLevelLowThresholdVoltage
+		case 1697484698:
+			return engineConfiguration->fuelLevelLowThresholdVoltage;
+// fuelLevelHighThresholdVoltage
+		case 2012123720:
+			return engineConfiguration->fuelLevelHighThresholdVoltage;
 // tcu_shiftTime
 		case -1658957891:
 			return config->tcu_shiftTime;
+// dynoRpmStep
+		case -1085712470:
+			return config->dynoRpmStep;
+// dynoSaeTemperatureC
+		case 903483241:
+			return config->dynoSaeTemperatureC;
+// dynoSaeRelativeHumidity
+		case 1509051617:
+			return config->dynoSaeRelativeHumidity;
+// dynoSaeBaro
+		case -391393956:
+			return config->dynoSaeBaro;
+// dynoCarWheelDiaInch
+		case 1541525498:
+			return config->dynoCarWheelDiaInch;
+// dynoCarWheelAspectRatio
+		case -1404613719:
+			return config->dynoCarWheelAspectRatio;
+// dynoCarWheelTireWidthMm
+		case 1000921080:
+			return config->dynoCarWheelTireWidthMm;
+// dynoCarGearPrimaryReduction
+		case -1607465307:
+			return config->dynoCarGearPrimaryReduction;
+// dynoCarGearRatio
+		case 589242035:
+			return config->dynoCarGearRatio;
+// dynoCarGearFinalDrive
+		case 220694456:
+			return config->dynoCarGearFinalDrive;
+// dynoCarCarMassKg
+		case -1343193327:
+			return config->dynoCarCarMassKg;
+// dynoCarCargoMassKg
+		case 183555079:
+			return config->dynoCarCargoMassKg;
+// dynoCarCoeffOfDrag
+		case -1121870933:
+			return config->dynoCarCoeffOfDrag;
+// dynoCarFrontalAreaM2
+		case -1661556925:
+			return config->dynoCarFrontalAreaM2;
 	}
 	return EFI_ERROR_CODE;
 }
@@ -2315,9 +2402,9 @@ bool setConfigValueByName(const char *name, float value) {
 		engineConfiguration->launchTimingRetard = value;
 		return 1;
 	}
-		case -1310663509:
+		case 1548430930:
 	{
-		engineConfiguration->hip9011PrescalerAndSDO = (int)value;
+		engineConfiguration->hip9011Prescaler = (int)value;
 		return 1;
 	}
 		case 107641733:
@@ -2458,11 +2545,6 @@ bool setConfigValueByName(const char *name, float value) {
 		case -1269130308:
 	{
 		engineConfiguration->idle_derivativeFilterLoss = value;
-		return 1;
-	}
-		case 274318471:
-	{
-		engineConfiguration->trailingSparkAngle = (int)value;
 		return 1;
 	}
 		case 1212570205:
@@ -2790,11 +2872,6 @@ bool setConfigValueByName(const char *name, float value) {
 		engineConfiguration->finalIgnitionCutPercentBeforeLaunch = (int)value;
 		return 1;
 	}
-		case 1549866701:
-	{
-		engineConfiguration->vehicleWeight = (int)value;
-		return 1;
-	}
 		case 1962548154:
 	{
 		engineConfiguration->idlePidRpmUpperLimit = (int)value;
@@ -2923,11 +3000,6 @@ bool setConfigValueByName(const char *name, float value) {
 		case -1190865359:
 	{
 		engineConfiguration->suppressWboWorkaround7048 = (int)value;
-		return 1;
-	}
-		case 2046602309:
-	{
-		engineConfiguration->showHumanReadableWarning = (int)value;
 		return 1;
 	}
 		case 1838375282:
@@ -3188,11 +3260,6 @@ bool setConfigValueByName(const char *name, float value) {
 		case 1611799720:
 	{
 		engineConfiguration->fuelClosedLoopCorrectionEnabled = (int)value;
-		return 1;
-	}
-		case -111377544:
-	{
-		engineConfiguration->oddFireEngine = (int)value;
 		return 1;
 	}
 		case 787397010:
@@ -3503,11 +3570,6 @@ bool setConfigValueByName(const char *name, float value) {
 		case -339821344:
 	{
 		engineConfiguration->knockDetectionWindowStart = value;
-		return 1;
-	}
-		case -1562133783:
-	{
-		engineConfiguration->knockDetectionWindowEnd = value;
 		return 1;
 	}
 		case 1145888170:
@@ -4027,22 +4089,22 @@ bool setConfigValueByName(const char *name, float value) {
 	}
 		case -557658095:
 	{
-		engineConfiguration->tChargeMinRpmMinTps = value;
+		engineConfiguration->tChargeMinRpmMinTps = (int)value;
 		return 1;
 	}
 		case -566786093:
 	{
-		engineConfiguration->tChargeMinRpmMaxTps = value;
+		engineConfiguration->tChargeMinRpmMaxTps = (int)value;
 		return 1;
 	}
 		case -599338669:
 	{
-		engineConfiguration->tChargeMaxRpmMinTps = value;
+		engineConfiguration->tChargeMaxRpmMinTps = (int)value;
 		return 1;
 	}
 		case -608466667:
 	{
-		engineConfiguration->tChargeMaxRpmMaxTps = value;
+		engineConfiguration->tChargeMaxRpmMaxTps = (int)value;
 		return 1;
 	}
 		case 298649674:
@@ -5070,9 +5132,179 @@ bool setConfigValueByName(const char *name, float value) {
 		engineConfiguration->knockFrequency = value;
 		return 1;
 	}
+		case -425992769:
+	{
+		engineConfiguration->secondaryInjectorFuelReferencePressure = value;
+		return 1;
+	}
+		case -582951931:
+	{
+		engineConfiguration->nitrousControlEnabled = (int)value;
+		return 1;
+	}
+		case -1483164266:
+	{
+		engineConfiguration->nitrousControlTriggerPinInverted = (int)value;
+		return 1;
+	}
+		case -1760115393:
+	{
+		engineConfiguration->nitrousLuaGaugeArmingValue = value;
+		return 1;
+	}
+		case 1089367148:
+	{
+		engineConfiguration->nitrousMinimumTps = (int)value;
+		return 1;
+	}
+		case 1089348504:
+	{
+		engineConfiguration->nitrousMinimumClt = (int)value;
+		return 1;
+	}
+		case -677571211:
+	{
+		engineConfiguration->nitrousMaximumMap = (int)value;
+		return 1;
+	}
+		case -677584112:
+	{
+		engineConfiguration->nitrousMaximumAfr = (int)value;
+		return 1;
+	}
+		case -469950118:
+	{
+		engineConfiguration->nitrousActivationRpm = (int)value;
+		return 1;
+	}
+		case 1072117635:
+	{
+		engineConfiguration->nitrousDeactivationRpm = (int)value;
+		return 1;
+	}
+		case -1786673317:
+	{
+		engineConfiguration->nitrousDeactivationRpmWindow = (int)value;
+		return 1;
+	}
+		case 601094003:
+	{
+		engineConfiguration->dfcoRetardDeg = (int)value;
+		return 1;
+	}
+		case 2030571545:
+	{
+		engineConfiguration->dfcoRetardRampInTime = (int)value;
+		return 1;
+	}
+		case -1197734314:
+	{
+		engineConfiguration->nitrousFuelAdderPercent = (int)value;
+		return 1;
+	}
+		case -617548836:
+	{
+		engineConfiguration->nitrousIgnitionRetard = value;
+		return 1;
+	}
+		case 1658738502:
+	{
+		engineConfiguration->nitrousMinimumVehicleSpeed = (int)value;
+		return 1;
+	}
+		case 2094922339:
+	{
+		engineConfiguration->fuelLevelAveragingAlpha = value;
+		return 1;
+	}
+		case 128251338:
+	{
+		engineConfiguration->fuelLevelUpdatePeriodSec = value;
+		return 1;
+	}
+		case 1697484698:
+	{
+		engineConfiguration->fuelLevelLowThresholdVoltage = value;
+		return 1;
+	}
+		case 2012123720:
+	{
+		engineConfiguration->fuelLevelHighThresholdVoltage = value;
+		return 1;
+	}
 		case -1658957891:
 	{
 		config->tcu_shiftTime = value;
+		return 1;
+	}
+		case -1085712470:
+	{
+		config->dynoRpmStep = (int)value;
+		return 1;
+	}
+		case 903483241:
+	{
+		config->dynoSaeTemperatureC = (int)value;
+		return 1;
+	}
+		case 1509051617:
+	{
+		config->dynoSaeRelativeHumidity = (int)value;
+		return 1;
+	}
+		case -391393956:
+	{
+		config->dynoSaeBaro = value;
+		return 1;
+	}
+		case 1541525498:
+	{
+		config->dynoCarWheelDiaInch = (int)value;
+		return 1;
+	}
+		case -1404613719:
+	{
+		config->dynoCarWheelAspectRatio = (int)value;
+		return 1;
+	}
+		case 1000921080:
+	{
+		config->dynoCarWheelTireWidthMm = (int)value;
+		return 1;
+	}
+		case -1607465307:
+	{
+		config->dynoCarGearPrimaryReduction = value;
+		return 1;
+	}
+		case 589242035:
+	{
+		config->dynoCarGearRatio = value;
+		return 1;
+	}
+		case 220694456:
+	{
+		config->dynoCarGearFinalDrive = value;
+		return 1;
+	}
+		case -1343193327:
+	{
+		config->dynoCarCarMassKg = (int)value;
+		return 1;
+	}
+		case 183555079:
+	{
+		config->dynoCarCargoMassKg = (int)value;
+		return 1;
+	}
+		case -1121870933:
+	{
+		config->dynoCarCoeffOfDrag = value;
+		return 1;
+	}
+		case -1661556925:
+	{
+		config->dynoCarFrontalAreaM2 = value;
 		return 1;
 	}
 	}

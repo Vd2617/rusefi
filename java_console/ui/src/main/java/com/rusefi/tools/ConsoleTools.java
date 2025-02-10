@@ -23,7 +23,6 @@ import com.rusefi.io.tcp.BinaryProtocolProxy;
 import com.rusefi.io.tcp.BinaryProtocolServer;
 import com.rusefi.io.tcp.ServerSocketReference;
 import com.rusefi.maintenance.ExecHelper;
-import com.rusefi.proxy.client.LocalApplicationProxy;
 import com.rusefi.tools.online.Online;
 import com.rusefi.tune.xml.Msq;
 import com.rusefi.ui.AuthTokenPanel;
@@ -55,10 +54,8 @@ public class ConsoleTools {
     private static final StatusConsumer statusListener = new StatusConsumer() {
         final Logging log = getLogging(CANConnectorStartup.class);
         @Override
-        public void append(final String message, final boolean breakLineOnTextArea, final boolean sendToLogger) {
-            if (sendToLogger) {
-                log.info(message);
-            }
+        public void logLine(final String message) {
+            log.info(message);
         }
     };
 
@@ -73,8 +70,8 @@ public class ConsoleTools {
         registerTool("get_image_tune_crc", ConsoleTools::calcBinaryImageTuneCrc, "Calculate tune CRC for given binary tune");
         registerTool("get_xml_tune_crc", ConsoleTools::calcXmlImageTuneCrc, "Calculate tune CRC for given XML tune");
 
-        registerTool("network_connector", strings -> NetworkConnectorStartup.start(), "Connect your rusEFI ECU to rusEFI Online");
-        registerTool("network_authenticator", strings -> LocalApplicationProxy.start(), "rusEFI Online Authenticator");
+//        registerTool("network_connector", strings -> NetworkConnectorStartup.start(), "Connect your rusEFI ECU to rusEFI Online");
+//        registerTool("network_authenticator", strings -> LocalApplicationProxy.start(), "rusEFI Online Authenticator");
 //        registerTool("elm327_connector", strings -> Elm327ConnectorStartup.start(), "Connect your rusEFI ECU using ELM327 CAN-bus adapter");
         registerTool("pcan_connector", strings -> {
 
@@ -162,13 +159,11 @@ public class ConsoleTools {
 
     private static void calcBinaryImageTuneCrc(String... args) throws IOException {
         String fileName = args[1];
-        ConfigurationImage image = ConfigurationImageFile.readFromFile(fileName);
+        ConfigurationImage image = ConfigurationImageFile.readFromFile(fileName).getConfigurationImage();
         printCrc(image);
     }
 
     private static void printCrc(ConfigurationImage image) {
-        for (int i = 0; i < Fields.WARNING_BUFFER_SIZE; i++)
-            image.getContent()[Fields.WARNING_MESSAGE.getOffset() + i] = 0;
         int crc32 = getCrc32(image.getContent());
         int crc16 = crc32 & 0xFFFF;
         System.out.printf("tune_CRC32_hex=0x%x\n", crc32);
@@ -307,25 +302,6 @@ public class ConsoleTools {
         });
     }
 
-    private static void writeTune(String[] args) throws Exception {
-        if (args.length < 2) {
-            System.out.println("No tune file name specified");
-            return;
-        }
-
-        String fileName = args[1];
-        Msq msq = Msq.readTune(fileName);
-
-        startAndConnect(linkManager -> {
-            ConfigurationImage ci = msq.asImage(IniFileModelImpl.getInstance());
-            linkManager.getConnector().getBinaryProtocol().uploadChanges(ci);
-
-            //System.exit(0);
-            return null;
-        });
-
-    }
-
     private static void invokeCallback(String callback) {
         if (callback == null)
             return;
@@ -366,17 +342,17 @@ public class ConsoleTools {
 
     private static void convertBinaryToXml(String[] args) throws IOException, JAXBException {
         if (args.length < 2) {
-            System.err.println("Binary file input expected");
+            log.error("Binary file input expected");
             System.exit(-1);
         }
         String inputBinaryFileName = args[1];
-        ConfigurationImage image = ConfigurationImageFile.readFromFile(inputBinaryFileName);
-        System.out.println("Got " + image.getSize() + " of configuration from " + inputBinaryFileName);
+        ConfigurationImage image = ConfigurationImageFile.readFromFile(inputBinaryFileName).getConfigurationImage();
+        log.info("Got " + image.getSize() + " of configuration from " + inputBinaryFileName);
 
         Msq tune = MsqFactory.valueOf(image, IniFileModelImpl.getInstance());
         tune.writeXmlFile(Online.outputXmlFileName);
         String authToken = AuthTokenPanel.getAuthToken();
-        System.out.println("Using " + authToken);
+        log.info("Using " + authToken);
         Online.upload(new File(Online.outputXmlFileName), authToken);
     }
 
@@ -411,7 +387,7 @@ public class ConsoleTools {
             EngineState.ValueCallback<String> callback = new EngineState.ValueCallback<String>() {
                 @Override
                 public void onUpdate(String value) {
-                    if (value.startsWith(Fields.PROTOCOL_HELLO_PREFIX)) {
+                    if (value.startsWith(Integration.PROTOCOL_HELLO_PREFIX)) {
                         messages.append(value);
                         messages.append("\n");
                     }
@@ -419,7 +395,7 @@ public class ConsoleTools {
             };
             while (!unpack.isEmpty()) {
                 String original = unpack;
-                unpack = EngineState.handleStringActionPair(unpack, new EngineState.StringActionPair(Fields.PROTOCOL_MSG, callback), null);
+                unpack = EngineState.handleStringActionPair(unpack, new EngineState.StringActionPair(Integration.PROTOCOL_MSG, callback), null);
                 if (original.length() == unpack.length()) {
                     // skip key
                     unpack = EngineState.skipToken(unpack);

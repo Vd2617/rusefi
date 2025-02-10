@@ -34,7 +34,7 @@
 #include "speed_density_base.h"
 #include "lua_hooks.h"
 
-extern fuel_Map3D_t veMap;
+extern ve_Map3D_t veMap;
 static mapEstimate_Map3D_t mapEstimationTable{"mape"};
 
 #if EFI_ENGINE_CONTROL
@@ -130,6 +130,7 @@ float getRunningFuel(float baseFuel) {
 
 #if EFI_LAUNCH_CONTROL
 	correction *= engine->launchController.getFuelCoefficient();
+	correction *= engine->module<NitrousController>().unmock().getFuelCoefficient();
 #endif
 
 	correction *= getLimpManager()->getLimitingFuelCorrection();
@@ -363,15 +364,6 @@ float getCltFuelCorrection() {
 		return 1; // this error should be already reported somewhere else, let's just handle it
 
 	return interpolate2d(clt.Value, config->cltFuelCorrBins, config->cltFuelCorr);
-}
-
-angle_t getCltTimingCorrection() {
-	const auto clt = Sensor::get(SensorType::Clt);
-
-	if (!clt)
-		return 0; // this error should be already reported somewhere else, let's just handle it
-
-	return interpolate2d(clt.Value, config->cltTimingBins, config->cltTimingExtra);
 }
 
 float getIatFuelCorrection() {

@@ -21,6 +21,9 @@
 #define PACK_MULT_FUEL_FLOW 200
 #define PACK_MULT_VSS 100
 
+! technically that's PWM_PHASE_MAX_WAVE_PER_PWM * 2
+#define HW_EVENT_TYPES 4
+
 #define STFT_BANK_COUNT 2
 
 #define TCU_GEAR_COUNT 10
@@ -38,13 +41,15 @@
 #define IGN_BLEND_COUNT 4
 #define VE_BLEND_COUNT 4
 #define BOOST_BLEND_COUNT 2
+#define TARGET_AFR_BLEND_COUNT 2
 #define LUA_GAUGE_COUNT 8
 
 
 #define GAUGE_NAME_VERSION "firmware"
 #define GAUGE_NAME_UPTIME "Uptime"
+! WARNING! THIS GAUGE NAME IS PART of REO integration API
 #define GAUGE_NAME_TRG_ERR "Trigger Error Counter"
-#define GAUGE_NAME_TRG_GAP "Trigger Sync Latest Ratio"
+#define GAUGE_NAME_TRG_GAP "Sync: Trigger Latest Ratio"
 
 #define GAUGE_NAME_CAN_READ_OK "CAN: Rx"
 #define GAUGE_NAME_CAN_WRITE_OK "CAN: Tx OK"
@@ -55,6 +60,7 @@
 #define GAUGE_CATEGORY_FUEL_MATH "Fuel: math"
 #define GAUGE_CATEGORY_BOOST_CONTROL "Boost Control"
 #define GAUGE_CATEGORY_ETB "ETB more"
+#define GAUGE_CATEGORY_SENT "Sensors - SENT"
 
 #define GAUGE_NAME_VVT_B1I "VVT: bank 1 intake"
 #define GAUGE_NAME_VVT_B1E "VVT: bank 1 exhaust"

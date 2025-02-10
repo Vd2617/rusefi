@@ -11,7 +11,6 @@ void setBoardConfigOverrides() {
     setupTLE9201(/*PWM controlPin*/Gpio::H144_OUT_PWM2, Gpio::H144_OUT_PWM3, Gpio::H144_OUT_PWM1);
 	setHellenCan();
 	setHellenMMbaro();
-	hellenWbo();
 	setDefaultHellenAtPullUps();
 
 
@@ -33,6 +32,7 @@ void setBoardDefaultConfiguration() {
 	engineConfiguration->injectionPins[2] = Gpio::H144_LS_3;
 	engineConfiguration->injectionPins[3] = Gpio::H144_LS_4;
 
+	hellenWbo();
 	setGDIFueling();
 
   // port injectors
@@ -41,7 +41,7 @@ void setBoardDefaultConfiguration() {
 //	engineConfiguration->injectionPins[2] = Gpio::TLE9104_0_OUT_2;
 //	engineConfiguration->injectionPins[3] = Gpio::TLE9104_0_OUT_3;
 
-  engineConfiguration->hpfpValvePin = Gpio::H144_LS_6; // start 6?
+  engineConfiguration->hpfpValvePin = Gpio::H144_LS_6; // start 6
 
 	engineConfiguration->mainRelayPin = Gpio::TLE9104_1_OUT_0;
 	engineConfiguration->fuelPumpPin = Gpio::TLE9104_1_OUT_1;

@@ -3,6 +3,7 @@ package com.rusefi.maintenance;
 import com.devexperts.logging.Logging;
 import com.rusefi.FileLog;
 import com.rusefi.io.UpdateOperationCallbacks;
+import com.rusefi.ui.StatusWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +38,7 @@ public class DriverInstall {
                 if (dialogResult != JOptionPane.YES_OPTION)
                     return;
 
-                final UpdateOperationCallbacks wnd = new UpdateStatusWindow("Windows rusEFI ST Drivers");
+                final UpdateOperationCallbacks wnd = StatusWindow.createAndShowFrame("Windows rusEFI ST Drivers");
 
                 ExecHelper.submitAction(() -> installDrivers(wnd), getClass() + " thread");
 
@@ -51,7 +52,7 @@ public class DriverInstall {
         log.info("IsWindows=" + FileLog.isWindows());
         if (!new File(FOLDER).exists()) {
             String message = FOLDER + " not found";
-            wnd.appendLine(message);
+            wnd.logLine(message);
             log.info(message);
             return;
         }
@@ -64,7 +65,7 @@ public class DriverInstall {
       String batch = isWindows7orBelow() ? WINDOWS7_BATCH : WINDOWS8_BATCH;
         ExecHelper.executeCommand(UNPACKED_FOLDER, ExecHelper.getBatchCommand(batch), batch, wnd);
       } catch (FileNotFoundException e) {
-        wnd.appendLine(e.toString());
+        wnd.logLine(e.toString());
         wnd.error();
       }
     }

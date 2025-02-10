@@ -1,4 +1,4 @@
-// was generated automatically by rusEFI tool  from rusefi_enums.h // by enum_to_string.jar tool on Fri Sep 27 22:36:30 UTC 2024
+// was generated automatically by rusEFI tool  from rusefi_enums.h // by enum_to_string.jar tool on Mon Jan 13 14:25:49 UTC 2025
 // see also gen_config_and_enums.bat
 
 
@@ -26,6 +26,12 @@ const char *getSelectedGear(SelectedGear value);
 #endif //__cplusplus
 #if __cplusplus
 const char *getSentEtbType(SentEtbType value);
+#endif //__cplusplus
+#if __cplusplus
+const char *getSentFuelHighPressureType(SentFuelHighPressureType value);
+#endif //__cplusplus
+#if __cplusplus
+const char *getSentInput(SentInput value);
 #endif //__cplusplus
 #if __cplusplus
 const char *getTransmissionControllerMode(TransmissionControllerMode value);
@@ -64,14 +70,16 @@ const char *getInjector_compensation_mode_e(injector_compensation_mode_e value);
 const char *getInjector_pressure_type_e(injector_pressure_type_e value);
 const char *getLaunchActivationMode_e(launchActivationMode_e value);
 const char *getLoad_override_e(load_override_e value);
+const char *getLua_gauge_e(lua_gauge_e value);
+const char *getLua_gauge_meaning_e(lua_gauge_meaning_e value);
 const char *getMaf_sensor_type_e(maf_sensor_type_e value);
 const char *getMc33810maxDwellTimer_e(mc33810maxDwellTimer_e value);
+const char *getNitrous_arming_method_e(nitrous_arming_method_e value);
 const char *getOperation_mode_e(operation_mode_e value);
 const char *getPin_input_mode_e(pin_input_mode_e value);
 const char *getPin_output_mode_e(pin_output_mode_e value);
 const char *getSensor_chart_e(sensor_chart_e value);
 const char *getSpi_device_e(spi_device_e value);
-const char *getSpi_speed_e(spi_speed_e value);
 const char *getStepper_num_micro_steps_e(stepper_num_micro_steps_e value);
 const char *getTChargeMode_e(tChargeMode_e value);
 const char *getTiming_mode_e(timing_mode_e value);

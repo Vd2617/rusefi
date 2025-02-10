@@ -10,12 +10,16 @@ TestEngineState& TestEngineState::getInstance() {
     return instance;
 }
 
-void TestEngineState::setLuaSoftSparkSkip(const float value) {
-    engine->engineState.luaSoftSparkSkip = value;
+float TestEngineState::getInjectionStage2Fraction() const {
+    return engine->engineState.injectionStage2Fraction;
 }
 
-void TestEngineState::setLuaHardSparkSkip(const float value) {
-    engine->engineState.luaHardSparkSkip = value;
+floatms_t TestEngineState::getInjectionDuration() const {
+    return engine->engineState.injectionDuration;
+}
+
+floatms_t TestEngineState::getInjectionDurationStage2() const {
+    return engine->engineState.injectionDurationStage2;
 }
 
 TestEngineState::TestEngineState() {

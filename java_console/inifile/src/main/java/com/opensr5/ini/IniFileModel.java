@@ -7,15 +7,17 @@ import java.util.Map;
 import java.util.Set;
 
 public interface IniFileModel {
-    IniFileModelImpl findAndReadIniFile(String iniFilePath);
-
     Map<String, List<String>> getDefines();
 
     Map<String, IniField> getAllIniFields();
 
+    IniField getIniField(String key);
+
     Map<String, String> getProtocolMeta();
 
     IniFileMetaInfo getMetaInfo();
+
+    String getIniFilePath();
 
     Map<String, String> getTooltips();
 

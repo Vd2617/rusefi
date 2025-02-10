@@ -55,7 +55,7 @@ CanTxMessage::CanTxMessage(CanCategory p_category, uint32_t eid, uint8_t dlc, si
 
 	setBus(bus);
 
-	memset(m_frame.data8, 0, sizeof(m_frame.data8));
+	setArrayValues(m_frame.data8, 0);
 #endif // HAS_CAN_FRAME
 }
 
@@ -64,9 +64,9 @@ CanTxMessage::~CanTxMessage() {
 	txCanBuffer.put(m_frame);
 
 #if EFI_UNIT_TEST
-	printf("%s Sending CAN bus%d message: ID=%x/l=%x %x %x %x %x %x %x %x %x \n",
+	printf("%s Sending CAN%d message: ID=%x/l=%x %x %x %x %x %x %x %x %x \n",
 		   getCanCategory(category),
-		   busIndex,
+		   busIndex + 1,
 #ifndef STM32H7XX
 		   (unsigned int)((m_frame.IDE == CAN_IDE_EXT) ? CAN_EID(m_frame) : CAN_SID(m_frame)),
 #else
@@ -84,7 +84,7 @@ CanTxMessage::~CanTxMessage() {
 	auto device = s_devices[busIndex];
 
 	if (!device) {
-		criticalError("Send: CAN device not configured busIndex=%d", busIndex);
+		criticalError("Send: CAN%d device not configured", busIndex + 1);
 		return;
 	}
 
@@ -92,10 +92,13 @@ CanTxMessage::~CanTxMessage() {
 		return;
 	}
 
-	if (engineConfiguration->verboseCan) {
-		efiPrintf("%s Sending CAN bus%d message: ID=%x/l=%x %x %x %x %x %x %x %x %x",
-		        getCanCategory(category),
-				busIndex,
+	bool verboseCan0 = engineConfiguration->verboseCan && busIndex == 0;
+	bool verboseCan1 = engineConfiguration->verboseCan2 && busIndex == 1;
+
+	if (verboseCan0 || verboseCan1) {
+		efiPrintf("%s Sending CAN%d message: ID=%x/l=%x %x %x %x %x %x %x %x %x",
+				getCanCategory(category),
+				busIndex + 1,
 #ifndef STM32H7XX
 				(unsigned int)((m_frame.IDE == CAN_IDE_EXT) ? CAN_EID(m_frame) : CAN_SID(m_frame)),
 #else

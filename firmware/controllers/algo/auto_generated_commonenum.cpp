@@ -1,6 +1,6 @@
 #include "global.h"
 #include "rusefi_enums.h"
-// was generated automatically by rusEFI tool  from rusefi_enums.h // by enum_to_string.jar tool on Fri Sep 27 22:36:30 UTC 2024
+// was generated automatically by rusEFI tool  from rusefi_enums.h // by enum_to_string.jar tool on Sun Feb 09 03:15:30 UTC 2025
 // see also gen_config_and_enums.bat
 
 
@@ -115,6 +115,36 @@ case SentEtbType::FORD_TYPE_1:
 case SentEtbType::GM_TYPE_1:
   return "GM_TYPE_1";
 case SentEtbType::NONE:
+  return "NONE";
+  }
+ return NULL;
+}
+const char *getSentFuelHighPressureType(SentFuelHighPressureType value){
+switch(value) {
+case SentFuelHighPressureType::GM_TYPE:
+  return "GM_TYPE";
+case SentFuelHighPressureType::NONE:
+  return "NONE";
+  }
+ return NULL;
+}
+const char *getSentInput(SentInput value){
+switch(value) {
+case SentInput::INPUT1:
+  return "INPUT1";
+case SentInput::INPUT2:
+  return "INPUT2";
+case SentInput::INPUT3:
+  return "INPUT3";
+case SentInput::INPUT4:
+  return "INPUT4";
+case SentInput::INPUT5:
+  return "INPUT5";
+case SentInput::INPUT6:
+  return "INPUT6";
+case SentInput::INPUT7:
+  return "INPUT7";
+case SentInput::NONE:
   return "NONE";
   }
  return NULL;
@@ -464,6 +494,10 @@ case GPPWM_LuaGauge2:
   return "GPPWM_LuaGauge2";
 case GPPWM_Map:
   return "GPPWM_Map";
+case GPPWM_OilPressure:
+  return "GPPWM_OilPressure";
+case GPPWM_OilTemp:
+  return "GPPWM_OilTemp";
 case GPPWM_Rpm:
   return "GPPWM_Rpm";
 case GPPWM_Tps:
@@ -626,6 +660,36 @@ case AFR_Tps:
   }
  return NULL;
 }
+const char *getLua_gauge_e(lua_gauge_e value){
+switch(value) {
+case LUA_GAUGE_1:
+  return "LUA_GAUGE_1";
+case LUA_GAUGE_2:
+  return "LUA_GAUGE_2";
+case LUA_GAUGE_3:
+  return "LUA_GAUGE_3";
+case LUA_GAUGE_4:
+  return "LUA_GAUGE_4";
+case LUA_GAUGE_5:
+  return "LUA_GAUGE_5";
+case LUA_GAUGE_6:
+  return "LUA_GAUGE_6";
+case LUA_GAUGE_7:
+  return "LUA_GAUGE_7";
+case LUA_GAUGE_8:
+  return "LUA_GAUGE_8";
+  }
+ return NULL;
+}
+const char *getLua_gauge_meaning_e(lua_gauge_meaning_e value){
+switch(value) {
+case LUA_GAUGE_LOWER_BOUND:
+  return "LUA_GAUGE_LOWER_BOUND";
+case LUA_GAUGE_UPPER_BOUND:
+  return "LUA_GAUGE_UPPER_BOUND";
+  }
+ return NULL;
+}
 const char *getMaf_sensor_type_e(maf_sensor_type_e value){
 switch(value) {
 case Bosch0280218004:
@@ -653,6 +717,15 @@ case DWELL_64MS:
   return "DWELL_64MS";
 case DWELL_8MS:
   return "DWELL_8MS";
+  }
+ return NULL;
+}
+const char *getNitrous_arming_method_e(nitrous_arming_method_e value){
+switch(value) {
+case DIGITAL_SWITCH_INPUT:
+  return "DIGITAL_SWITCH_INPUT";
+case LUA_GAUGE:
+  return "LUA_GAUGE";
   }
  return NULL;
 }
@@ -735,19 +808,6 @@ case SPI_NONE:
   }
  return NULL;
 }
-const char *getSpi_speed_e(spi_speed_e value){
-switch(value) {
-case _150KHz:
-  return "_150KHz";
-case _1_25MHz:
-  return "_1_25MHz";
-case _2_5MHz:
-  return "_2_5MHz";
-case _5MHz:
-  return "_5MHz";
-  }
- return NULL;
-}
 const char *getStepper_num_micro_steps_e(stepper_num_micro_steps_e value){
 switch(value) {
 case STEPPER_EIGHTH:
@@ -800,6 +860,10 @@ case LAUNCH_BUTTON:
   return "LAUNCH_BUTTON";
 case TORQUE_REDUCTION_BUTTON:
   return "TORQUE_REDUCTION_BUTTON";
+case TORQUE_REDUCTION_CLUTCH_DOWN_SWITCH:
+  return "TORQUE_REDUCTION_CLUTCH_DOWN_SWITCH";
+case TORQUE_REDUCTION_CLUTCH_UP_SWITCH:
+  return "TORQUE_REDUCTION_CLUTCH_UP_SWITCH";
   }
  return NULL;
 }

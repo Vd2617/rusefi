@@ -372,6 +372,8 @@ static void enableOrDisable(const char *param, bool isEnabled) {
 		verboseRxCan = isEnabled;
 	} else if (strEqualCaseInsensitive(param, "verboseCan")) {
 		engineConfiguration->verboseCan = isEnabled;
+	} else if (strEqualCaseInsensitive(param, "verboseCan2")) {
+		engineConfiguration->verboseCan2 = isEnabled;
 	} else if (strEqualCaseInsensitive(param, "verboseIsoTp")) {
 		engineConfiguration->verboseIsoTp = isEnabled;
 	} else if (strEqualCaseInsensitive(param, "artificialMisfire")) {
@@ -694,6 +696,7 @@ void printDateTime() {
 
 void setDateTime(const char * const isoDateTime) {
 #if EFI_RTC
+	printRtcDateTime();
 	if (strlen(isoDateTime) >= 19 && isoDateTime[10] == 'T') {
 		efidatetime_t dateTime;
 		dateTime.year = atoi(isoDateTime);
@@ -710,6 +713,8 @@ void setDateTime(const char * const isoDateTime) {
 				dateTime.second <= 59) {
 			// doesn't concern about leap years or seconds; ChibiOS doesn't support (added) leap seconds anyway
 			setRtcDateTime(&dateTime);
+			efiPrintf("Time is changed to");
+			printRtcDateTime();
 			return;
 		}
 	}

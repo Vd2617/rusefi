@@ -1,5 +1,5 @@
 
-CONTROLLERS_ALGO_SRC_CPP = $(PROJECT_DIR)/controllers/algo/advance_map.cpp \
+CONTROLLERS_ALGO_SRC_CPP = $(PROJECT_DIR)/controllers/algo/ignition/ignition_state.cpp \
 	$(PROJECT_DIR)/controllers/algo/malfunction_central.cpp \
 	$(GENERATED_ENUMS_DIR)/auto_generated_enums.cpp \
 	$(GENERATED_ENUMS_DIR)/auto_generated_commonenum.cpp \
@@ -10,6 +10,7 @@ CONTROLLERS_ALGO_SRC_CPP = $(PROJECT_DIR)/controllers/algo/advance_map.cpp \
 	$(PROJECT_DIR)/controllers/algo/wall_fuel.cpp \
 	$(PROJECT_DIR)/controllers/algo/launch_control.cpp \
 	$(PROJECT_DIR)/controllers/algo/shift_torque_reduction_controller.cpp \
+	$(PROJECT_DIR)/controllers/algo/nitrous_controller.cpp \
 	$(PROJECT_DIR)/controllers/algo/antilag_system.cpp \
 	$(PROJECT_DIR)/controllers/algo/dynoview.cpp \
 	$(PROJECT_DIR)/controllers/algo/runtime_state.cpp \

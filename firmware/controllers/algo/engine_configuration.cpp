@@ -22,9 +22,7 @@
 
 #include "pch.h"
 
-
 #include "speed_density.h"
-#include "advance_map.h"
 #include "flash_main.h"
 
 #include "bench_test.h"
@@ -121,7 +119,7 @@ void onBurnRequest() {
  * this hook is about https://github.com/rusefi/rusefi/wiki/Custom-Firmware and https://github.com/rusefi/rusefi/wiki/Canned-Tune-Process
  * todo: why two hooks? is one already dead?
  */
-PUBLIC_API_WEAK void boardTuneDefaults() { }
+PUBLIC_API_WEAK void boardBeforeTuneDefaults() { }
 
 // Weak link a stub so that every board doesn't have to implement this function
 PUBLIC_API_WEAK void boardOnConfigurationChange(engine_configuration_s* /*previousConfiguration*/) { }
@@ -333,6 +331,7 @@ static void setDefaultBoostOpenLoopParameters() {
 static void setDefaultEngineNoiseTable() {
 	setRpmTableBin(config->knockNoiseRpmBins);
 
+	engineConfiguration->knockDetectionWindowStart = 15.0 + 5.0;
 	engineConfiguration->knockSamplingDuration = 45;
 
 	setArrayValues(config->knockBaseNoise, -20);
@@ -595,11 +594,12 @@ static void setDefaultEngineConfiguration() {
 	engineConfiguration->acPressureEnableHyst = engine_configuration_defaults::AC_PRESSURE_ENABLE_HYST;
 	engineConfiguration->acIdleExtraOffset = 15;
 
-	/* these two are used for HIP9011 only
-	 * Currently this is offset from fire event, not TDC */
-	/* TODO: convert to offset from TDC */
-	engineConfiguration->knockDetectionWindowStart = 15.0 + 5.0;
-	engineConfiguration->knockDetectionWindowEnd = 15.0 + 45.0;
+    engineConfiguration->nitrousMinimumTps = engine_configuration_defaults::NITROUS_MINIMUM_TPS;
+    engineConfiguration->nitrousMinimumClt = engine_configuration_defaults::NITROUS_MINIMUM_CLT;
+    engineConfiguration->nitrousMaximumAfr = engine_configuration_defaults::NITROUS_MAXIMUM_AFR;
+    engineConfiguration->nitrousActivationRpm = engine_configuration_defaults::NITROUS_ACTIVATION_RPM;
+    engineConfiguration->nitrousDeactivationRpm = engine_configuration_defaults::NITROUS_DEACTIVATION_RPM;
+    engineConfiguration->nitrousDeactivationRpmWindow = engine_configuration_defaults::NITROUS_DEACTIVATION_RPM_WINDOW;
 
 	engineConfiguration->triggerSimulatorRpm = DEFAULT_SELT_STIM_RPM;
 	engineConfiguration->simulatorCamPosition[0] = DEFAULT_SELT_STIM_VVT0;
@@ -673,7 +673,7 @@ void resetConfigurationExt(configuration_callback_t boardCallback, engine_type_e
 	/**
 	 * custom board engine defaults. Yes, this overlaps with (older) engine_type_e approach.
 	 */
-	boardTuneDefaults();
+	boardBeforeTuneDefaults();
 
 	// set initial pin groups
 	setDefaultBasePins();
@@ -708,12 +708,8 @@ void applyNonPersistentConfiguration() {
 #endif
 
 #if EFI_ENGINE_CONTROL
-	engine->updateTriggerWaveform();
+	engine->updateTriggerConfiguration();
 #endif // EFI_ENGINE_CONTROL
-}
-
-void setTwoStrokeOperationMode() {
-	engineConfiguration->twoStroke = true;
 }
 
 void setCamOperationMode() {
@@ -721,6 +717,7 @@ void setCamOperationMode() {
 }
 
 void setCrankOperationMode() {
+	// this is related to 'setDefaultBaseEngine' having 'skippedWheelOnCam = true' which is a weird fact by itself
 	engineConfiguration->skippedWheelOnCam = false;
 }
 

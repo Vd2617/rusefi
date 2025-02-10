@@ -198,6 +198,22 @@ enum class SentEtbType : uint8_t {
 	CUSTOM = 3,
 };
 
+enum class SentFuelHighPressureType : uint8_t {
+	NONE = 0,
+	GM_TYPE = 1,
+};
+
+enum class SentInput : uint8_t {
+	NONE = 0,
+	INPUT1 = 1,
+	INPUT2 = 2,
+	INPUT3 = 3,
+	INPUT4 = 4,
+	INPUT5 = 5,
+	INPUT6 = 6,
+	INPUT7 = 7
+};
+
 enum class CanGpioType : uint8_t {
 	NONE = 0,
 	DRT = 1,
@@ -344,14 +360,6 @@ typedef enum __attribute__ ((__packed__)) {
 	UART_DEVICE_3 = 3,
 	UART_DEVICE_4 = 4,
 } uart_device_e;
-
-typedef enum __attribute__ ((__packed__)) {
-	_5MHz,
-	_2_5MHz,
-	_1_25MHz,
-	_150KHz
-} spi_speed_e;
-
 
 /**
  * See spi3mosiPin
@@ -588,7 +596,30 @@ typedef enum __attribute__ ((__packed__)) {
 typedef enum __attribute__ ((__packed__)) {
 	TORQUE_REDUCTION_BUTTON = 0,
 	LAUNCH_BUTTON = 1,
+	TORQUE_REDUCTION_CLUTCH_DOWN_SWITCH = 2,
+	TORQUE_REDUCTION_CLUTCH_UP_SWITCH = 3,
 } torqueReductionActivationMode_e;
+
+typedef enum __attribute__ ((__packed__)) {
+	DIGITAL_SWITCH_INPUT = 0,
+	LUA_GAUGE = 1,
+} nitrous_arming_method_e;
+
+typedef enum __attribute__ ((__packed__)) {
+	LUA_GAUGE_1 = 0,
+	LUA_GAUGE_2 = 1,
+	LUA_GAUGE_3 = 2,
+	LUA_GAUGE_4 = 3,
+	LUA_GAUGE_5 = 4,
+	LUA_GAUGE_6 = 5,
+	LUA_GAUGE_7 = 6,
+	LUA_GAUGE_8 = 7,
+} lua_gauge_e;
+
+typedef enum __attribute__ ((__packed__)) {
+	LUA_GAUGE_LOWER_BOUND = 0,
+	LUA_GAUGE_UPPER_BOUND = 1,
+} lua_gauge_meaning_e;
 
 typedef enum __attribute__ ((__packed__)) {
 	SWITCH_INPUT_ANTILAG = 0,
@@ -628,6 +659,8 @@ typedef enum __attribute__ ((__packed__)) {
 	GPPWM_AuxLinear3 = 29,
 	GPPWM_AuxLinear4 = 30,
 	GPPWM_VehicleSpeed = 31,
+	GPPWM_OilPressure = 32,
+	GPPWM_OilTemp = 33,
 	// remember to manually sync 'pwmAxisLabels' in tunerstudio.template.ini
 	// todo: rename 'pwmAxisLabels' and maybe even gppwm_channel_e since we now use wider than just 'gppwm'?
 } gppwm_channel_e;
