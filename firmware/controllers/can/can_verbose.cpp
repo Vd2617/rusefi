@@ -23,7 +23,7 @@
 #define CAN_SENSOR_1_OFFSET 3
 
 static uint16_t errorCodes[24];  
-static size_t lastErrorCodeIndex; 
+static int16_t lastErrorCodeIndex; 
 
 void reloadErrors(){
   size_t i = 0;
@@ -37,7 +37,7 @@ void reloadErrors(){
   			break;
   	}
   }
-  lastErrorCodeIndex = i - 1;
+  lastErrorCodeIndex = i - 1 ;
   for ( ; i < efi::size(errorCodes); i++) {
   	errorCodes[i] = static_cast<uint16_t>(ObdCode::None);
   }
