@@ -28,6 +28,7 @@ static int16_t lastErrorCodeIndex;
 void reloadErrors(){
   size_t i = 0;
   lastErrorCodeIndex = 0;
+  memset(errorCodes, static_cast<uint16_t>(ObdCode::None), sizeof(errorCodes));
   for (size_t j = 0; j < engine->engineState.warnings.recentWarnings.getCount(); j++) {
   	warning_t& warn = engine->engineState.warnings.recentWarnings.get(j);
   	if ((warn.Code != ObdCode::None) &&
@@ -39,9 +40,6 @@ void reloadErrors(){
   	}
   }
   lastErrorCodeIndex = i - 1;
-  for ( ; i < efi::size(errorCodes); i++) {
-  	errorCodes[i] = static_cast<uint16_t>(ObdCode::None);
-  }
 }
 
 uint16_t getNextErrorCode() {
