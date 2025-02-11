@@ -47,12 +47,11 @@ void reloadErrors(){
 uint16_t getNextErrorCode() {
   if (lastErrorCodeIndex < 0) {
       reloadErrors();
-      if(lastErrorCodeIndex < 0){
+  }
+  if(lastErrorCodeIndex < 0){
         return static_cast<uint16_t>(ObdCode::None);
-      }
   }
   return errorCodes[lastErrorCodeIndex--];
-    
 }
 
 struct Status{
