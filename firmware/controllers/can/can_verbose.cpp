@@ -27,6 +27,7 @@ static int16_t lastErrorCodeIndex;
 
 void reloadErrors(){
   size_t i = 0;
+  lastErrorCodeIndex = 0;
   for (size_t j = 0; j < engine->engineState.warnings.recentWarnings.getCount(); j++) {
   	warning_t& warn = engine->engineState.warnings.recentWarnings.get(j);
   	if ((warn.Code != ObdCode::None) &&
@@ -46,8 +47,12 @@ void reloadErrors(){
 uint16_t getNextErrorCode() {
   if (lastErrorCodeIndex < 0) {
       reloadErrors();
+      if(lastErrorCodeIndex < 0){
+        return errorCodes[0];
+      }
   }
   return errorCodes[lastErrorCodeIndex--];
+    
 }
 
 struct Status{
