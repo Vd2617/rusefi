@@ -38,7 +38,7 @@ void reloadErrors(){
   			break;
   	}
   }
-  lastErrorCodeIndex = i - 1 ;
+  lastErrorCodeIndex = i - 1;
   for ( ; i < efi::size(errorCodes); i++) {
   	errorCodes[i] = static_cast<uint16_t>(ObdCode::None);
   }
@@ -48,7 +48,7 @@ uint16_t getNextErrorCode() {
   if (lastErrorCodeIndex < 0) {
       reloadErrors();
   }
-  if(lastErrorCodeIndex < 0){
+  if(lastErrorCodeIndex < 0) {
         return static_cast<uint16_t>(ObdCode::None);
   }
   return errorCodes[lastErrorCodeIndex--];
