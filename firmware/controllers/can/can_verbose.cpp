@@ -23,7 +23,7 @@
 #define CAN_SENSOR_1_OFFSET 3
 
 static uint16_t errorCodes[24];  
-static int16_t lastErrorCodeIndex; 
+static int16_t lastErrorCodeIndex = -1; 
 
 void reloadErrors(){
   size_t i = 0;
