@@ -71,8 +71,8 @@ struct Status{
 };
 
 static void populateFrame(Status& msg) {
-  msg.warningCounter =  static_cast<uint16_t>(engine->engineState.warnings.lastErrorCode);
-  msg.lastErrorCode = engine->engineState.warnings.recentWarnings.getCount(); //getNextErrorCode() ;
+  msg.warningCounter =  engine->engineState.warnings.recentWarnings.getCount();
+  msg.lastErrorCode =  getNextErrorCode() ;
 	msg.revLimit = !engine->module<LimpManager>()->allowInjection() || !engine->module<LimpManager>()->allowIgnition();
 	msg.mainRelay = enginePins.mainRelay.getLogicValue();
 	msg.fuelPump = enginePins.fuelPumpRelay.getLogicValue();
