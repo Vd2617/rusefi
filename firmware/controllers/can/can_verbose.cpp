@@ -42,7 +42,7 @@ void reloadErrors(){
   lastErrorCodeIndex = i - 1;
 }
 
-void uint16_t getNextErrorCode() {
+uint16_t getNextErrorCode() {
   if (lastErrorCodeIndex < 0) {
       reloadErrors();
   }
