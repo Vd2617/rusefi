@@ -25,7 +25,7 @@
 static uint16_t errorCodes[24];  
 static int16_t lastErrorCodeIndex = -1; 
 
-static void reloadErrors(){
+void reloadErrors(){
   size_t i = 0;
   lastErrorCodeIndex = 0;
   memset(errorCodes, static_cast<uint16_t>(ObdCode::None),sizeof(errorCodes));
@@ -42,7 +42,7 @@ static void reloadErrors(){
   lastErrorCodeIndex = i - 1;
 }
 
-static uint16_t getNextErrorCode() {
+uint16_t getNextErrorCode() {
   if (lastErrorCodeIndex < 0) {
       reloadErrors();
   }
