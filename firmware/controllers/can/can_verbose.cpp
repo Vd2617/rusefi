@@ -31,8 +31,7 @@ void reloadErrors(){
   memset(errorCodes, static_cast<uint16_t>(ObdCode::None),sizeof(errorCodes));
   for (size_t j = 0; j < engine->engineState.warnings.recentWarnings.getCount(); j++) {
   	warning_t& warn = engine->engineState.warnings.recentWarnings.get(j);
-  	if ((warn.Code != ObdCode::None) &&
-  		(!warn.LastTriggered.hasElapsedSec(maxI(3, engineConfiguration->warningPeriod)))) {
+  	if (warn.Code != ObdCode::None) {
   		errorCodes[i] = static_cast<uint16_t>(warn.Code);
   		i++;
   		if (i >= efi::size(errorCodes))
@@ -72,7 +71,7 @@ struct Status{
 
 static void populateFrame(Status& msg) {
   msg.warningCounter =  engine->engineState.warnings.recentWarnings.getCount();
-  msg.lastErrorCode = static_cast<uint16_t>(engine->engineState.warnings.recentWarnings.get(0).Code);//getNextErrorCode() ;
+  msg.lastErrorCode = getNextErrorCode();
 	msg.revLimit = !engine->module<LimpManager>()->allowInjection() || !engine->module<LimpManager>()->allowIgnition();
 	msg.mainRelay = enginePins.mainRelay.getLogicValue();
 	msg.fuelPump = enginePins.fuelPumpRelay.getLogicValue();
