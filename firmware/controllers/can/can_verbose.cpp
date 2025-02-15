@@ -22,7 +22,7 @@
 #define CAN_PEDAL_TPS_OFFSET 2
 #define CAN_SENSOR_1_OFFSET 3
 
-static volatile uint16_t errorCodes[24];  
+static uint16_t errorCodes[24];  
 static volatile int16_t lastErrorCodeIndex = -1; 
 
 void reloadErrors(){
