@@ -23,7 +23,7 @@
 #define CAN_SENSOR_1_OFFSET 3
 
 static uint16_t errorCodes[24];  
-static volatile int16_t lastErrorCodeIndex = -1; 
+static int16_t lastErrorCodeIndex = -1; 
 
 void reloadErrors(){
   size_t i = 0;
@@ -44,9 +44,9 @@ void reloadErrors(){
 uint16_t getNextErrorCode() {
   if (lastErrorCodeIndex < 0) {
       reloadErrors();
-  }
-  if(lastErrorCodeIndex < 0) {
+      if(lastErrorCodeIndex < 0) {
         return static_cast<uint16_t>(ObdCode::None);
+      }
   }
   return errorCodes[lastErrorCodeIndex--];
 }
