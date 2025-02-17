@@ -33,6 +33,7 @@ void reloadErrors(){
   	warning_t& warn = engine->engineState.warnings.recentWarnings.get(j);
   	if (warn.Code != ObdCode::None) {
   		errorCodes[i] = static_cast<uint16_t>(warn.Code);
+      efiPrintf("warning code add to list");
   		i++;
   		if (i >= efi::size(errorCodes))
   			break;
