@@ -31,7 +31,7 @@ void reloadErrors(){
   memset(errorCodes, static_cast<uint16_t>(ObdCode::None),sizeof(errorCodes));
   for (size_t j = 0; j < engine->engineState.warnings.recentWarnings.getCount(); j++) {
   	warning_t& warn = engine->engineState.warnings.recentWarnings.get(j);
-  	if ((warn.Code != ObdCode::None) && (!warn.LastTriggered.hasElapsedSec(maxI(3, engineConfiguration->warningPeriod)))) {
+  	if ((warn.Code != ObdCode::None) && (!warn.LastTriggered.hasElapsedSec(3)) {
   		errorCodes[i] = static_cast<uint16_t>(warn.Code);
       efiPrintf("test warning add to send: %u\n",errorCodes[i]);
   		i++;
