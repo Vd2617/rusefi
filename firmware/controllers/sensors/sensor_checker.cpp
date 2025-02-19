@@ -108,31 +108,16 @@ static void check(SensorType type) {
 	}
 
 	auto result = Sensor::get(type);
-
-  if(type == SensorType::Clt){
-		if(result.Valid){
-      efiPrintf("CLT OK");
-	  }else{
-      efiPrintf("CLT FAULT");
-	  }
-	}
   
-	// If the sensor is OK, nothing to check.
-	if (result.Valid) {
+  // If the sensor is OK, nothing to check.
+	if (result) {
 		return;
 	}
-
-  efiPrintf("Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
-
 	ObdCode code = getCode(type, result.Code);
-
   
-	
   if (code != ObdCode::None) {
 		warning(code, "Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
-	}else{ 
-    efiPrintf("None OBD Code detected");
-  }
+	}
 }
 
 #if BOARD_EXT_GPIOCHIPS > 0 && EFI_PROD_CODE
@@ -188,10 +173,8 @@ void SensorChecker::onSlowCallback() {
 	bool shouldCheck = m_ignitionIsOn && m_timeSinceIgnOff.hasElapsedSec(5);
 	m_analogSensorsShouldWork = shouldCheck;
 	if (!shouldCheck) {
-    efiPrintf("check sensors OFF ");
 		return;
 	}
-  efiPrintf("check sensors ON ");
 
 	// Check sensors
 	check(SensorType::Tps1Primary);
