@@ -126,7 +126,9 @@ static void check(SensorType type) {
 
 	if (code != ObdCode::None) {
 		warning(code, "Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
-	}
+	}else{ 
+    efiPrintf("None OBD Code detected");
+  }
 }
 
 #if BOARD_EXT_GPIOCHIPS > 0 && EFI_PROD_CODE
