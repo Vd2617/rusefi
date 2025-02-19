@@ -110,7 +110,7 @@ static void check(SensorType type) {
 	auto result = Sensor::get(type);
 
 	// If the sensor is OK, nothing to check.
-	if (!result.Valid) {
+	if (result.Valid) {
 		return;
 	}
 
