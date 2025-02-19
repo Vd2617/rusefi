@@ -124,7 +124,9 @@ static void check(SensorType type) {
 
 	ObdCode code = getCode(type, result.Code);
 
-	if (code != ObdCode::None) {
+  efiPrintf("Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
+	
+  if (code != ObdCode::None) {
 		warning(code, "Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
 	}else{ 
     efiPrintf("None OBD Code detected");
