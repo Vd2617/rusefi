@@ -122,9 +122,11 @@ static void check(SensorType type) {
 		return;
 	}
 
+  efiPrintf("Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
+
 	ObdCode code = getCode(type, result.Code);
 
-  efiPrintf("Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
+  
 	
   if (code != ObdCode::None) {
 		warning(code, "Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
