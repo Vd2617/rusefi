@@ -174,10 +174,10 @@ void SensorChecker::onSlowCallback() {
 	bool shouldCheck = m_ignitionIsOn && m_timeSinceIgnOff.hasElapsedSec(5);
 	m_analogSensorsShouldWork = shouldCheck;
 	if (!shouldCheck) {
-    efiPrintf("check sensors OFF");
+    efiPrintf("check sensors OFF ");
 		return;
 	}
-  efiPrintf("check sensors ON");
+  efiPrintf("check sensors ON ");
 
 	// Check sensors
 	check(SensorType::Tps1Primary);
