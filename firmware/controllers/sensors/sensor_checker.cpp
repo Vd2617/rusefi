@@ -109,6 +109,14 @@ static void check(SensorType type) {
 
 	auto result = Sensor::get(type);
 
+  if(type == SensorType::Clt){
+		if(result.Valid){
+      efiPrintf("CLT OK");
+	  }else{
+      efiPrintf("CLT FAULT");
+	  }
+	}
+  
 	// If the sensor is OK, nothing to check.
 	if (result.Valid) {
 		return;
