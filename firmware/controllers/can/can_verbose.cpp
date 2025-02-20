@@ -22,7 +22,10 @@
 #define CAN_PEDAL_TPS_OFFSET 2
 #define CAN_SENSOR_1_OFFSET 3
 
-static uint16_t errorCodes[24];  
+#define ERROR_CODES_SIZE 24
+#define ERROR_ACTIVE_TIME_SEC 3
+
+static uint16_t errorCodes[ERROR_CODES_SIZE];  
 static int16_t lastErrorCodeIndex = -1; 
 
 static void reloadErrors(){
@@ -31,7 +34,7 @@ static void reloadErrors(){
   memset(errorCodes, static_cast<uint16_t>(ObdCode::None),sizeof(errorCodes));
   for (size_t j = 0; j < engine->engineState.warnings.recentWarnings.getCount(); j++) {
   	warning_t& warn = engine->engineState.warnings.recentWarnings.get(j);
-  	if ((warn.Code != ObdCode::None) && (!warn.LastTriggered.hasElapsedSec(3))) {
+  	if ((warn.Code != ObdCode::None) && (!warn.LastTriggered.hasElapsedSec(ERROR_ACTIVE_TIME_SEC))) {
   		errorCodes[i] = static_cast<uint16_t>(warn.Code);
   		i++;
   		if (i >= efi::size(errorCodes))
