@@ -108,15 +108,14 @@ static void check(SensorType type) {
 	}
 
 	auto result = Sensor::get(type);
-
-	// If the sensor is OK, nothing to check.
+  
+  // If the sensor is OK, nothing to check.
 	if (result) {
 		return;
 	}
-
 	ObdCode code = getCode(type, result.Code);
-
-	if (code != ObdCode::None) {
+  
+  if (code != ObdCode::None) {
 		warning(code, "Sensor fault: %s %s", Sensor::getSensorName(type), describeUnexpected(result.Code));
 	}
 }
