@@ -28,6 +28,7 @@
 static uint16_t errorCodes[ERROR_CODES_SIZE];  
 static int16_t lastErrorCodeIndex = -1; 
 
+//load only active errors to errorCodes 
 static void reloadErrors(){
   size_t i = 0;
   lastErrorCodeIndex = 0;
