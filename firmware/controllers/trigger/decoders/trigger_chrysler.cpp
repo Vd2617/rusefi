@@ -26,6 +26,7 @@ void initDodgeRam(TriggerWaveform *s) {
 }
 
 void configureNeon2003TriggerWaveformCrank(TriggerWaveform *s) {
+  //FOR TEST 
   s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
 
 	s->setTriggerSynchronizationGap(3);
