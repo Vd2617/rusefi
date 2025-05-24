@@ -26,7 +26,80 @@ void initDodgeRam(TriggerWaveform *s) {
 }
 
 void configureNeon2003TriggerWaveformCrank(TriggerWaveform *s) {
-	s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
+  s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
+
+	s->setTriggerSynchronizationGap(3);
+
+	// voodoo magic - we always need 720 at the end
+	int base = 26;
+
+	s->addEvent360(base + 0, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//1
+	s->addEvent360(base + 4, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 10, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//2
+	s->addEvent360(base + 14, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 20, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//3
+	s->addEvent360(base + 24, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 30, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//4
+	s->addEvent360(base + 34, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 40, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//5
+	s->addEvent360(base + 44, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 50, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//6
+	s->addEvent360(base + 54, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 60, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//7
+	s->addEvent360(base + 64, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 70, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//8
+	s->addEvent360(base + 74, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 80, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//9
+	s->addEvent360(base + 84, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 90, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//10
+	s->addEvent360(base + 94, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 100, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//11
+	s->addEvent360(base + 104, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 110, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//12
+	s->addEvent360(base + 114, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 120, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//13
+	s->addEvent360(base + 124, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 130, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//14
+	s->addEvent360(base + 134, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 140, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//15
+	s->addEvent360(base + 144, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 150, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//16
+	//без зубьев подьём большой проходим 24
+	s->addEvent360(base + 174, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	
+	s->addEvent360(base + 180, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//1
+	s->addEvent360(base + 184, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 190, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//2
+	s->addEvent360(base + 194, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 200, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//3
+	s->addEvent360(base + 204, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 210, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//4
+	s->addEvent360(base + 214, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 220, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//5
+	s->addEvent360(base + 224, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 230, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//6
+	s->addEvent360(base + 234, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 240, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//7
+	s->addEvent360(base + 244, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 250, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//8
+	s->addEvent360(base + 254, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 260, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//9
+	s->addEvent360(base + 264, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 270, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//10
+	s->addEvent360(base + 274, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 280, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//11
+	s->addEvent360(base + 284, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 290, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//12
+	s->addEvent360(base + 294, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 300, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//13
+	s->addEvent360(base + 304, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 310, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//14
+	s->addEvent360(base + 314, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 320, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//15
+	s->addEvent360(base + 324, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 330, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//16
+	s->addEvent360(base + 334, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	/*s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
 
 	s->setTriggerSynchronizationGap(3);
 
@@ -95,6 +168,8 @@ void configureNeon2003TriggerWaveformCrank(TriggerWaveform *s) {
 	s->addEvent360(350, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
 	s->addEvent360(355, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
 	s->addEvent360(360, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+ */
+  
 }
 
 void configureNeon2003TriggerWaveformCam(TriggerWaveform *s) {
@@ -385,80 +460,41 @@ void configureDodgeStratusTriggerWaveform(TriggerWaveform *s) {
 }
 
 void configureNeon1995TriggerWaveformOnlyCrank(TriggerWaveform *s) {
-s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
 
-	s->setTriggerSynchronizationGap(3);
+		s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::Rise);
+
+	// Nominal gap 3.25
+	s->setTriggerSynchronizationGap3(0, 1.6, 4.5);
+
+	// Nominal gap 1.0
+	s->setTriggerSynchronizationGap3(1, 0.5, 1.5);
+	s->setTriggerSynchronizationGap3(2, 0.5, 1.5);
+
+	// Nominal gap 0.168
+	s->setTriggerSynchronizationGap3(3, 0.1, 0.3);
+
+	s->tdcPosition = 279;
 
 	// voodoo magic - we always need 720 at the end
-	int base = 26;
+	int base = 59;
 
-	s->addEvent360(base + 0, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//1
-	s->addEvent360(base + 4, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 10, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//2
-	s->addEvent360(base + 14, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 20, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//3
-	s->addEvent360(base + 24, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 30, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//4
-	s->addEvent360(base + 34, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 40, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//5
-	s->addEvent360(base + 44, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 50, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//6
-	s->addEvent360(base + 54, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 60, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//7
-	s->addEvent360(base + 64, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 70, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//8
-	s->addEvent360(base + 74, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 80, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//9
-	s->addEvent360(base + 84, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 90, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//10
-	s->addEvent360(base + 94, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 100, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//11
-	s->addEvent360(base + 104, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 110, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//12
-	s->addEvent360(base + 114, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 120, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//13
-	s->addEvent360(base + 124, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 130, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//14
-	s->addEvent360(base + 134, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 140, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//15
-	s->addEvent360(base + 144, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 150, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//16
-	//без зубьев подьём большой проходим 24
-	s->addEvent360(base + 174, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	
-	s->addEvent360(base + 180, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//1
-	s->addEvent360(base + 184, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 190, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//2
-	s->addEvent360(base + 194, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 200, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//3
-	s->addEvent360(base + 204, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 210, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//4
-	s->addEvent360(base + 214, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 220, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//5
-	s->addEvent360(base + 224, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 230, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//6
-	s->addEvent360(base + 234, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 240, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//7
-	s->addEvent360(base + 244, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 250, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//8
-	s->addEvent360(base + 254, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 260, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//9
-	s->addEvent360(base + 264, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 270, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//10
-	s->addEvent360(base + 274, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 280, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//11
-	s->addEvent360(base + 284, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 290, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//12
-	s->addEvent360(base + 294, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 300, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//13
-	s->addEvent360(base + 304, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 310, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//14
-	s->addEvent360(base + 314, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 320, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//15
-	s->addEvent360(base + 324, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	s->addEvent360(base + 330, TriggerValue::RISE, TriggerWheel::T_PRIMARY);//16
-	s->addEvent360(base + 334, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
-	
+	s->addEvent360(base + 0, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 60, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 75, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 82, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 96, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 102, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 116, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 122, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+
+	s->addEvent360(base + 235, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 242, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 255, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 261, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 275, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 281, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 295, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+	s->addEvent360(base + 301, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
 	
 }
 
