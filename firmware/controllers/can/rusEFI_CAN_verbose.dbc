@@ -118,12 +118,9 @@ BO_ 520 BASE8: 8 Vector__XXX
  SG_ Cam2Etar : 56|8@1- (1,0) [-100|100] "deg" Vector__XXX
 
 
-
 CM_ SG_ 3221225472 AFR "Current AFR Reading
 ";
 CM_ SG_ 3221225472 VVTPos "Current VVT Position Reading";
-CM_ SG_ 512 WarningCounter "Total warnings since ECU start time";
-CM_ SG_ 512 LastError "Last error code";
 CM_ SG_ 512 RevLimAct "RPM Limiter Active";
 CM_ SG_ 512 MainRelayAct "Main Relay Active";
 CM_ SG_ 512 FuelPumpAct "Fuel Pump Output Active";

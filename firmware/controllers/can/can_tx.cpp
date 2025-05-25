@@ -47,7 +47,7 @@ void CanWrite::PeriodicTask(efitick_t nowNt) {
 		if (0 != engineConfiguration->canSleepPeriodMs) {
 			if (cycleCountsPeriodMs % canSleepPeriodMs) {
 				void sendCanVerbose();
-				sendCanVerbose();
+        sendCanVerbose();
 			}
 		}
 	}

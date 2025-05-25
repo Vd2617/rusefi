@@ -17,14 +17,47 @@
 #include "can.h"
 #include "fuel_math.h"
 #include "spark_logic.h"
+#include "engine_parts.h"
 
 #define CAN_PEDAL_TPS_OFFSET 2
 #define CAN_SENSOR_1_OFFSET 3
 
-struct Status {
-	uint16_t warningCounter;
-	uint16_t lastErrorCode;
+#define ERROR_CODES_SIZE 24
+#define ERROR_ACTIVE_TIME_SEC 3
 
+static uint16_t errorCodes[ERROR_CODES_SIZE];  
+static int16_t lastErrorCodeIndex = -1; 
+
+//load only active errors to errorCodes 
+static void reloadErrors(){
+  size_t i = 0;
+  lastErrorCodeIndex = 0;
+  memset(errorCodes, static_cast<uint16_t>(ObdCode::None),sizeof(errorCodes));
+  for (size_t j = 0; j < engine->engineState.warnings.recentWarnings.getCount(); j++) {
+  	warning_t& warn = engine->engineState.warnings.recentWarnings.get(j);
+  	if ((warn.Code != ObdCode::None) && (!warn.LastTriggered.hasElapsedSec(ERROR_ACTIVE_TIME_SEC))) {
+  		errorCodes[i] = static_cast<uint16_t>(warn.Code);
+  		i++;
+  		if (i >= efi::size(errorCodes))
+  			break;
+  	}
+  }
+  lastErrorCodeIndex = i - 1;
+}
+
+static uint16_t getNextErrorCode() {
+  if (lastErrorCodeIndex < 0) {
+      reloadErrors();
+      if(lastErrorCodeIndex < 0) {
+        return static_cast<uint16_t>(ObdCode::None);
+      }
+  }
+  return errorCodes[lastErrorCodeIndex--];
+}
+
+struct Status{
+  uint16_t warningCounter;
+	uint16_t lastErrorCode;
 	uint8_t revLimit : 1;
 	uint8_t mainRelay : 1;
 	uint8_t fuelPump : 1;
@@ -41,9 +74,8 @@ struct Status {
 };
 
 static void populateFrame(Status& msg) {
-	msg.warningCounter = engine->engineState.warnings.warningCounter;
-	msg.lastErrorCode = static_cast<uint16_t>(engine->engineState.warnings.lastErrorCode);
-
+  msg.warningCounter = engine->engineState.warnings.warningCounter;
+  msg.lastErrorCode = getNextErrorCode();
 	msg.revLimit = !engine->module<LimpManager>()->allowInjection() || !engine->module<LimpManager>()->allowIgnition();
 	msg.mainRelay = enginePins.mainRelay.getLogicValue();
 	msg.fuelPump = enginePins.fuelPumpRelay.getLogicValue();
@@ -222,6 +254,17 @@ static void populateFrame(Egts& msg) {
 	msg.egt[1] = Sensor::getOrZero(SensorType::EGT2) / 5;
 }
 
+//struct Errors{
+//uint16_t warningCounter;
+	//uint16_t lastErrorCode;
+  //uint16_t nextOBD2ErrorCode;
+//};
+//static void populateFrame(Errors& msg) {
+//	msg.warningCounter = engine->engineState.warnings.warningCounter;
+//	msg.lastErrorCode = static_cast<uint16_t>(engine->engineState.warnings.lastErrorCode);
+  //msg.nextOBD2ErrorCode = getNextErrorCode() ;
+//}
+
 void sendCanVerbose() {
 	auto base = engineConfiguration->verboseCanBaseAddress;
 	auto isExt = engineConfiguration->rusefiVerbose29b;
@@ -236,8 +279,8 @@ void sendCanVerbose() {
 	transmitStruct<Fueling2>	(CanCategory::VERBOSE, base + 6, isExt, canChannel);
 	transmitStruct<Fueling3>	(CanCategory::VERBOSE, base + 7, isExt, canChannel);
 	transmitStruct<Cams>		(CanCategory::VERBOSE, base + 8, isExt, canChannel);
-
-	transmitStruct<Egts>	(CanCategory::VERBOSE, base + 9, isExt, canChannel);
+  transmitStruct<Egts>	(CanCategory::VERBOSE, base + 9, isExt, canChannel);
+  //transmitStruct<Errors>	(CanCategory::VERBOSE, base + 10, isExt, canChannel);
 }
 
 #endif // EFI_CAN_SUPPORT
