@@ -558,4 +558,7 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
         s->addEventAngle(base + toothWidth, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
         base += narrow;
     }
+
+   // Добавляем завершающее событие на 360°, чтобы цикл правилно замыknулся 
+    s->addEventAngle(360, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
 }
