@@ -528,7 +528,7 @@ void initJeep_XJ_4cyl_2500(TriggerWaveform *s) {
 }
 
 void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
-s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
+s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::Rise);
 
     int narrow = 10;      //  10°
     int toothWidth = 4;  //  4°
@@ -559,6 +559,4 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
         base += narrow;
     }
 
-    // Добавляем завершающее событие на 360°, чтобы цикл правилно замыknулся 
-    s->addEventAngle(360 - 0.001, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
 }
