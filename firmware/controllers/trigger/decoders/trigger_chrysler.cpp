@@ -535,7 +535,7 @@ void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
 	}
 	s->setTriggerSynchronizationGap3(/*gapIndex*/15, 0.4 * TRIGGER_GAP_DEVIATION_LOW, 0.4 * TRIGGER_GAP_DEVIATION_HIGH);
 
-	float base = 0;
+	float base = 2;
 
 	for (int i = 0; i < 14; i++) {
 		s->addEventAngle(base + narrow / 2, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
