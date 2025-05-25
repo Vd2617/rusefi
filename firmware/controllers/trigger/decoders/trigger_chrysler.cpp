@@ -537,7 +537,7 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     //(gap = 26°)
     s->setTriggerSynchronizationGap3(0, 4.0, 5.0);
 
-    float base = 0;
+    float base = 2;
 
     // 15 
     for (int i = 0; i < 15; i++) {
