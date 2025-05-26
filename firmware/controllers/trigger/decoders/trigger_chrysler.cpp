@@ -530,15 +530,15 @@ void initJeep_XJ_4cyl_2500(TriggerWaveform *s) {
 void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
 s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
 
-    float narrow = 10.0;      //  10°
-    float toothWidth = 5.0;  //  5°
-    float wide = 23.13;       // long teeth 23°
+    float narrow = 10.0f;      //  10°
+    float toothWidth = 5.0f;  //  5°
+    float wide = 23.13f;       // long teeth 23°
 
     s->setTriggerSynchronizationGap(3.5);
     for (int i = 1; i < 17; i++) {
-      s->setTriggerSynchronizationGap3(i, 1 * TRIGGER_GAP_DEVIATION_LOW, 1 * TRIGGER_GAP_DEVIATION_HIGH);
+      s->setTriggerSynchronizationGap3(i, 0.8f, 1.2f);
     }
-    s->setTriggerSynchronizationGap3(17, 0.4 * TRIGGER_GAP_DEVIATION_LOW, 0.4 * TRIGGER_GAP_DEVIATION_HIGH);
+    s->setTriggerSynchronizationGap3(17, 0.2f, 0.6f);
 
     int base = 10; 
     // 16 befor long teeth
