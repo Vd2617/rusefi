@@ -540,7 +540,7 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
 	}
 	s->setTriggerSynchronizationGap4(/*gapIndex*/15, 0.4);
 
-    int base = 0;
+    int base = 6;
 
     // 15 
     for (int i = 0; i < 17; i++) {
@@ -556,13 +556,10 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     base += narrow - toothWidth ; //after long teeth
    
     // 16 
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 16; i++) {
         s->addEventAngle(base, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
         s->addEventAngle(base + toothWidth, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
         base += narrow;
-    }
-    
-    s->addEventAngle(base, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
-    s->addEventAngle(360, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+    }    
 
 }
