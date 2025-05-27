@@ -528,7 +528,7 @@ void initJeep_XJ_4cyl_2500(TriggerWaveform *s) {
 }
 
 void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
-s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
+    s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
 
     int narrow = 10.0f;      //  10°
     float toothWidth = 4.0f;  //  5°
