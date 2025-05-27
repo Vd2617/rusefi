@@ -534,13 +534,14 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     float toothWidth = 4.0f;  //  5°
     float wide = 23.13f;       // long teeth 23°
 
-    s->setTriggerSynchronizationGap(3.5);
+    s->setTriggerSynchronizationGap3(i, 2.9f, 4.0f);
+    
     for (int i = 1; i < 17; i++) {
       s->setTriggerSynchronizationGap3(i, 0.8f, 1.2f);
     }
     s->setTriggerSynchronizationGap3(17, 0.2f, 0.6f);
 
-    int base = 0; 
+    int base = 10; 
     
     // 16 befor long teeth
     for (int i = 0; i < 16; i++) {
