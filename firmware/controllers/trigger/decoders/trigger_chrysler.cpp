@@ -564,6 +564,6 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     }    
     
     // last tooth
-     //s->addEventAngle(base, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+     s->addEventAngle(360 - 0.3, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
      s->addEventAngle(360, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
 }
