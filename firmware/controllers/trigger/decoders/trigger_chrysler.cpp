@@ -540,7 +540,7 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     }
     s->setTriggerSynchronizationGap3(17, 0.2f, 0.6f);
 
-    int base = 10; 
+    int base = 0; 
     
     // 16 befor long teeth
     for (int i = 0; i < 16; i++) {
