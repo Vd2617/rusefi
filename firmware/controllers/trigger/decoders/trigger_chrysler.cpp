@@ -563,7 +563,7 @@ void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
         base += narrow;
     }    
     
-    // last tooth
+    // last  virtual tooth
      s->addEventAngle(360 - 0.3, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
      s->addEventAngle(360, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
 }
