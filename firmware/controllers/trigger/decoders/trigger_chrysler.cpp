@@ -543,7 +543,7 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     int base = 10; 
     
     // 16 befor long teeth
-    for (int i = 0; i < 17; i++) {
+    for (int i = 0; i < 16; i++) {
         s->addEventAngle(base, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
         s->addEventAngle(base + toothWidth, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
         base += narrow;
@@ -556,7 +556,7 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     base += narrow - toothWidth ; //after long teeth
    
     // 14 after long teeth
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 14; i++) {
         s->addEventAngle(base, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
         s->addEventAngle(base + toothWidth, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
         base += narrow;
