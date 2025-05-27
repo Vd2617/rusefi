@@ -541,7 +541,7 @@ void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
     }
     s->setTriggerSynchronizationGap3(17, 0.2f, 0.6f);
 
-    int base = 10; 
+    int base = 6; 
     
     // 16 befor long teeth
     for (int i = 0; i < 15; i++) {
