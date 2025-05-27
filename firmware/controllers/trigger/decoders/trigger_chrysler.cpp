@@ -531,7 +531,7 @@ void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
 s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
 
     float narrow = 10.0f;      //  10°
-    float toothWidth = 5.0f;  //  5°
+    float toothWidth = 4.0f;  //  5°
     float wide = 23.13f;       // long teeth 23°
 
     s->setTriggerSynchronizationGap(3.5);
@@ -540,7 +540,8 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     }
     s->setTriggerSynchronizationGap3(17, 0.2f, 0.6f);
 
-    int base = 10; 
+    int base = 0; 
+    
     // 16 befor long teeth
     for (int i = 0; i < 17; i++) {
         s->addEventAngle(base, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
@@ -554,11 +555,14 @@ s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
     base += wide ;
     base += narrow - toothWidth ; //after long teeth
    
-    // 15 after long teeth
+    // 14 after long teeth
     for (int i = 0; i < 15; i++) {
         s->addEventAngle(base, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
         s->addEventAngle(base + toothWidth, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
         base += narrow;
     }    
-      s->addEventAngle(360, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
+    
+    // last tooth
+     s->addEventAngle(base + toothWidth, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+     s->addEventAngle(360, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
 }
