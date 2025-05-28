@@ -536,10 +536,10 @@ void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
 
     s->setTriggerSynchronizationGap3(0, 2.9f, 4.0f);
     
-    for (int i = 1; i < 17; i++) {
+    for (int i = 1; i < 16; i++) {
       s->setTriggerSynchronizationGap3(i, 0.8f, 1.2f);
     }
-    s->setTriggerSynchronizationGap3(17, 0.2f, 0.4f);
+    s->setTriggerSynchronizationGap3(16, 0.2f, 0.4f);
 
     int base = 10; 
     
