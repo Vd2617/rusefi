@@ -541,7 +541,7 @@ void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
     }
     s->setTriggerSynchronizationGap3(16, 0.2f, 0.4f);
 
-    int base = 10; 
+    int base = 2; 
     
     // 16 befor long teeth
     for (int i = 0; i < 16; i++) {
@@ -564,6 +564,6 @@ void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
     }    
     
     // last  tooth
-     s->addEventAngle(360-10, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+     s->addEventAngle(360 - toothWidth/2, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
      s->addEventAngle(360, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
 }
