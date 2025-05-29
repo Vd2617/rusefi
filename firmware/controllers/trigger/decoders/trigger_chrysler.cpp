@@ -530,18 +530,18 @@ void initJeep_XJ_4cyl_2500(TriggerWaveform *s) {
 void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
     s->initialize(FOUR_STROKE_CRANK_SENSOR, SyncEdge::RiseOnly);
 
-    int narrow = 10.0f;      //  10°
-    float toothWidth = 4.0f;  //  5°
-    float wide = 23.13f;       // long teeth 23°
+    float  narrow = 360 / 36; //  10°
+    float toothWidth = narrow / 2;  //  5°
+    float wide = 25.0f;      // 36_2_2
 
-    s->setTriggerSynchronizationGap3(0, 2.9f, 4.0f);
+    s->setTriggerSynchronizationGap3(0, 2.6f, 3.6f);
     
-    for (int i = 1; i < 16; i++) {
+    for (int i = 1; i < 17; i++) {
       s->setTriggerSynchronizationGap3(i, 0.8f, 1.2f);
     }
-    s->setTriggerSynchronizationGap3(16, 0.2f, 0.4f);
+    s->setTriggerSynchronizationGap3(17, 0.2f, 0.4f);
 
-    int base = 2; 
+    int base = toothWidth / 2; 
     
     // 16 befor long teeth
     for (int i = 0; i < 16; i++) {
@@ -564,6 +564,6 @@ void configureChryslerNGC_36_2_2(TriggerWaveform *s) {
     }    
     
     // last  tooth
-     s->addEventAngle(360 - toothWidth/2, TriggerValue::RISE, TriggerWheel::T_PRIMARY);
+     s->addEventAngle(360 - toothWidth / 2 , TriggerValue::RISE, TriggerWheel::T_PRIMARY);
      s->addEventAngle(360, TriggerValue::FALL, TriggerWheel::T_PRIMARY);
 }
